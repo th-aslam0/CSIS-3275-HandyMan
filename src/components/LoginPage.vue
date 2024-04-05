@@ -130,6 +130,11 @@ export default {
 
 <style scoped>
 
+.login-form {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
 .p-field {
   margin-bottom: 20px;
 }
