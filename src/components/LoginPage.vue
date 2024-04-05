@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-content-center">
+  <div class="flex justify-content-center align-items-center h-screen">
     <div class="login-form flex flex-column justify-content-center gap-3">
       <div class="flex mx-8 flex-column align-items-center gap-4">
         <h2>Login</h2>
@@ -15,28 +15,27 @@
             <label for="password">Password</label>
           </FloatLabel>
         </div>
+        <h5>Select User Type</h5>
       </div>
 
       <div
-        class="flex align-items-center justify-content-center mt-3 flex-row gap-3"
+        class="flex align-items-center justify-content-center flex-row gap-3"
       >
         <div class="flex align-items-center">
           <RadioButton
-            v-model="ingredient"
             inputId="ingredient3"
             name="pizza"
             value="Pepper"
           />
-          <label for="ingredient3" class="ml-2">Handyman</label>
+          <label for="Pepper" class="ml-2">Handyman</label>
         </div>
         <div class="flex align-items-center">
           <RadioButton
-            v-model="ingredient"
             inputId="ingredient4"
             name="pizza"
             value="Onion"
           />
-          <label for="ingredient4" class="ml-2">Customer</label>
+          <label for="pizza" class="ml-2">Customer</label>
         </div>
       </div>
       <div class="flex flex-wrap  justify-content-center my-3 align-items-center gap-2">
@@ -130,13 +129,6 @@ export default {
 </script>
 
 <style scoped>
-.login-form {
-  /* max-width: 400px; */
-  /* margin-top: 1.5rem; */
-  /* padding: 20px; */
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
 
 .p-field {
   margin-bottom: 20px;
