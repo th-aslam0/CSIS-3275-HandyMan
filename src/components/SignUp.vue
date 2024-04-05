@@ -1,133 +1,180 @@
 <template>
-  <div class="login-form">
-    <h2>Login</h2>
-    <form @submit.prevent="submitForm">
-      <!-- Email -->
-      <FloatLabel>
-        <InputText id="email" v-model="email" required />
-        <label for="email">Email</label>
-      </FloatLabel>
-
-      <!-- Password -->
-      <FloatLabel>
-        <Password v-model="password" inputId="password" />
-        <label for="password">Password</label>
-      </FloatLabel>
-
-      <!-- User Type (Radio Buttons) -->
-      <FloatLabel>
-        <div class="p-formgroup-inline">
-          <RadioButton inputId="handyman" value="handyman" v-model="userType" />
-          <label for="handyman">Handyman</label>
-          <RadioButton inputId="customer" value="customer" v-model="userType" />
-          <label for="customer">Customer</label>
+  <div class="flex justify-content-center align-items-center h-full">
+    <div class="login-form flex flex-column justify-content-center gap-3">
+      <div class="flex mx-8 flex-column align-items-center gap-1">
+        <h2>Sign Up</h2>
+        <div class="flex flex-row gap-1">
+          <div class="flex flex-wrap align-items-center gap-2">
+            <FloatLabel>
+              <InputText id="username" v-model="value" />
+              <label for="username">Full Name</label>
+            </FloatLabel>
+          </div>
+          <div class="flex flex-wrap align-items-center gap-2">
+            <FloatLabel>
+              <InputText id="username" v-model="value" />
+              <label for="username">Email</label>
+            </FloatLabel>
+          </div>
+          <div class="flex flex-wrap align-items-center gap-2">
+            <FloatLabel>
+              <Password v-model="value" inputId="password" />
+              <label for="password">Password</label>
+            </FloatLabel>
+          </div>
         </div>
-        <label>User Type</label>
-      </FloatLabel>
-
-      <!-- Address -->
-      <FloatLabel>
-        <InputText id="address" v-model="address" />
-        <label for="address">Address</label>
-      </FloatLabel>
-
-      <!-- City and Postal Code -->
-      <div class="p-formgroup-inline">
-        <FloatLabel>
-          <InputText id="city" v-model="city" />
-          <label for="city">City</label>
-        </FloatLabel>
-        <FloatLabel>
-          <InputText id="postalCode" v-model="postalCode" />
-          <label for="postalCode">Postal Code</label>
-        </FloatLabel>
+        <h5>Select User Type</h5>
       </div>
 
-      <!-- Business Address (Visible for Handyman) -->
-      <div v-if="userType === 'handyman'">
-        <FloatLabel>
-          <InputText id="businessAddress" v-model="businessAddress" />
-          <label for="businessAddress">Business Address</label>
-        </FloatLabel>
+      <div
+        class="flex align-items-center justify-content-center flex-row gap-3"
+      >
+        <div class="flex align-items-center">
+          <RadioButton inputId="ingredient3" name="pizza" value="Pepper" />
+          <label for="Pepper" class="ml-2">Handyman</label>
+        </div>
+        <div class="flex align-items-center">
+          <RadioButton inputId="ingredient4" name="pizza" value="Onion" />
+          <label for="pizza" class="ml-2">Customer</label>
+        </div>
       </div>
-
-      <!-- Expertise (Checkbox Group) -->
-      <div class="p-field" v-if="userType === 'handyman'">
-        <label>Expertise</label>
-        <div class="p-formgroup-inline">
-          <Checkbox id="millwright" value="Mill Wright" v-model="expertise" />
-          <label for="millwright">Mill Wright</label>
-          <Checkbox id="painter" value="Painter" v-model="expertise" />
-          <label for="painter">Painter</label>
-          <Checkbox id="labour" value="Labour" v-model="expertise" />
-          <label for="labour">Labour</label>
+      <div
+        class="flex mx-8 flex-row align-items-center justify-content-center gap-4"
+      >
+        <div class="flex flex-wrap align-items-center gap-2">
+          <FloatLabel>
+            <InputText id="username" v-model="value" />
+            <label for="username">Address</label>
+          </FloatLabel>
+        </div>
+        <div class="flex flex-wrap align-items-center gap-2">
+          <FloatLabel>
+            <InputText id="username" v-model="value" />
+            <label for="password">City</label>
+          </FloatLabel>
+        </div>
+      </div>
+      <div
+        class="flex mx-8 flex-row align-items-center justify-content-center gap-4"
+      >
+        <div class="flex flex-wrap align-items-center gap-2">
+          <FloatLabel>
+            <InputText id="username" v-model="value" />
+            <label for="password">Postal Code</label>
+          </FloatLabel>
+        </div>
+        <div class="flex flex-wrap align-items-center gap-2">
+          <FloatLabel>
+            <InputText id="username" v-model="value" />
+            <label for="password">Business Address</label>
+          </FloatLabel>
+        </div>
+      </div>
+      <h5 class="card flex flex-wrap justify-content-center">Expertise</h5>
+      <div class="card flex flex-wrap justify-content-center gap-3">
+        <div class="flex align-items-center">
           <Checkbox
-            id="trafficControl"
-            value="Traffic Control Person"
-            v-model="expertise"
+            v-model="pizza"
+            inputId="ingredient1"
+            name="pizza"
+            value="Cheese"
           />
-          <label for="trafficControl">Traffic Control Person</label>
+          <label for="ingredient1" class="ml-2"> Cheese </label>
+        </div>
+        <div class="flex align-items-center">
+          <Checkbox
+            v-model="pizza"
+            inputId="ingredient2"
+            name="pizza"
+            value="Mushroom"
+          />
+          <label for="ingredient2" class="ml-2"> Mushroom </label>
+        </div>
+        <div class="flex align-items-center">
+          <Checkbox
+            v-model="pizza"
+            inputId="ingredient3"
+            name="pizza"
+            value="Pepper"
+          />
+          <label for="ingredient3" class="ml-2"> Pepper </label>
+        </div>
+        <div class="flex align-items-center">
+          <Checkbox
+            v-model="pizza"
+            inputId="ingredient4"
+            name="pizza"
+            value="Onion"
+          />
+          <label for="ingredient4" class="ml-2"> Onion </label>
         </div>
       </div>
-
-      <!-- Upload Profile Picture -->
-      <FloatLabel>
+      <div class="card flex flex-row justify-content-center gap-6">
+      <div
+        class="card flex flex-column align-items-center justify-content-center gap-1"
+      >
+        <h5>Upload Profile Pic</h5>
         <FileUpload
-          id="profilePic"
           mode="basic"
+          name="demo[]"
+          url="/api/upload"
           accept="image/*"
-          @change="handleProfilePicUpload"
+          :maxFileSize="1000000"
+          @upload="onUpload"
         />
-        <label for="profilePic">Upload Profile Picture</label>
-      </FloatLabel>
-
-      <!-- Upload Certificate -->
-      <FloatLabel>
+      </div>
+      <div
+        class="card flex flex-column align-items-center justify-content-center gap-1"
+      >
+        <h5>Upload Certificate</h5>
         <FileUpload
-          id="certificate"
           mode="basic"
-          accept=".pdf"
-          @change="handleCertificateUpload"
+          name="demo[]"
+          url="/api/upload"
+          accept="image/*"
+          :maxFileSize="1000000"
+          @upload="onUpload"
         />
-        <label for="certificate">Upload Certificate</label>
-      </FloatLabel>
-
-      <!-- Create Account Button -->
-      <Button type="submit" @click="redirectToLoginPage">Create Accoun</Button>
-    </form>
+      </div>
+    </div>
+    <div
+        class="card flex flex-column align-items-center justify-content-center gap-1 mb-1"
+      >
+    <Button type="submit" @click ="redirectToLoginPage">Create Account</Button> </div>
+  </div>
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
-import InputText from "primevue/inputtext";
-import Password from "primevue/password";
-import RadioButton from "primevue/radiobutton";
-import Checkbox from "primevue/checkbox";
-import FileUpload from "primevue/fileupload";
-import Button from "primevue/button";
+import { ref } from 'vue';
+import InputText from 'primevue/inputtext';
+import Password from 'primevue/password';
+import RadioButton from 'primevue/radiobutton';
+import Checkbox from 'primevue/checkbox';
+import FileUpload from 'primevue/fileupload';
+import Button from 'primevue/button';
 
-import FloatLabel from "primevue/floatlabel";
+import FloatLabel from 'primevue/floatlabel';
 
 export default {
-  name: "SignUp",
+  name: 'SignUp',
   components: {
     InputText,
     Password,
     RadioButton,
     Checkbox,
     FileUpload,
-    Button,
+    Button,  
     FloatLabel,
   },
   setup() {
-    const email = ref("");
-    const password = ref("");
-    const userType = ref("customer");
-    const address = ref("");
-    const city = ref("");
-    const postalCode = ref("");
-    const businessAddress = ref("");
+    const email = ref('');
+    const password = ref('');
+    const userType = ref('customer');
+    const address = ref('');
+    const city = ref('');
+    const postalCode = ref('');
+    const businessAddress = ref('');
     const expertise = ref([]);
     const profilePic = ref(null);
     const certificate = ref(null);
@@ -166,14 +213,7 @@ export default {
 </script>
 
 <style scoped>
-/* Add your custom styles here */
-.login-form * {
-  margin: 1rem;
-}
 .login-form {
-  max-width: 400px;
-  margin: auto;
-  padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
