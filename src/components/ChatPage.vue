@@ -4,60 +4,48 @@
     </div>
 
 
-    <!-- <div>
-      <Chat v-if="visible"
-        :participants="participants"
-        :myself="myself"
-        :messages="messages"
-        :chat-title="chatTitle"
-        :placeholder="placeholder"
-        :colors="colors"
-        :border-style="borderStyle"
-        :hide-close-button="hideCloseButton"
-        :close-button-icon-size="closeButtonIconSize"
-        :submit-icon-size="submitIconSize"
-        :submit-image-icon-size="submitImageIconSize"
-        :load-more-messages="toLoad.length > 0 ? loadMoreMessages : null"
-        :async-mode="asyncMode"
-        :scroll-bottom="scrollBottom"
-        :display-header="true"
-        :send-images="true"
-        :profile-picture-config="profilePictureConfig"
-        :timestamp-config="timestampConfig"
-        :link-options="linkOptions"
-        :accept-image-types="'.png, .jpeg'"
-        @onImageClicked="onImageClicked"
-        @onImageSelected="onImageSelected"
-        @onMessageSubmit="onMessageSubmit"
-        @onType="onType"
-        @onClose="onClose"/>
-   </div> -->
+    <vue-advanced-chat
+    :current-user-id="currentUserId"
+    :rooms="JSON.stringify(rooms)"
+    :messages="JSON.stringify(messages)"
+    :room-actions="JSON.stringify(roomActions)"
+  />
 </template>
 
 <script>
 
-// import Chat from 'vue-quick-chat'
-// import 'vue-quick-chat/dist/vue-quick-chat.css';
 import NavBar from "./NavBar.vue"
+import { register } from 'vue-advanced-chat'
 
 export default {
   name: "ChatPage",
   components: {
     NavBar,
     
-    // Chat
   },
   data() {
     return {
       searchQuery: "",
       NavBar,
+      currentUserId: '1234',
+        rooms: [],
+        messages: [],
+        roomActions: [
+          { name: 'inviteUser', title: 'Invite User' },
+          { name: 'removeUser', title: 'Remove User' },
+          { name: 'deleteRoom', title: 'Delete Room' }
+        ]
+
      
     };
   },
 };
+
+  register()
+
+  // Or if you used CDN import
+  // window['vue-advanced-chat'].register()
+
+  
 </script>
 
-<style scoped>
-
-
-</style>
