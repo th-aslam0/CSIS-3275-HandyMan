@@ -3,11 +3,11 @@
     <h2>Login</h2>
     <form @submit.prevent="submitForm">
       <!-- Email -->
-      <FloatLabel>
-        <InputText id="email" v-model="email" required />
-        <label for="email">Email</label>
-      </FloatLabel>
-
+        <FloatLabel>
+          <InputText id="email" v-model="email" required />
+          <label for="email">Email</label>
+        </FloatLabel>
+      
       <!-- Password -->
       <FloatLabel>
         <Password v-model="password" inputId="password" />
@@ -82,30 +82,32 @@
       </FloatLabel>
 
       <!-- Upload Certificate -->
-      <FloatLabel>
-        <FileUpload
-          id="certificate"
-          mode="basic"
-          accept=".pdf"
-          @change="handleCertificateUpload"
-        />
-        <label for="certificate">Upload Certificate</label>
-      </FloatLabel>
-
+      <div class="p-field" v-if="userType === 'handyman'">
+        <FloatLabel>
+          <FileUpload
+            id="certificate"
+            mode="basic"
+            accept=".pdf"
+            @change="handleCertificateUpload"
+          />
+          <label for="certificate">Upload Certificate</label>
+        </FloatLabel>
+      </div>
       <!-- Create Account Button -->
-      <Button type="submit" @click="redirectToLoginPage">Create Accoun</Button>
+      <Button type="submit" @click="submitForm()">Create Account</Button>
     </form>
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
+//import { ref } from "vue";
 import InputText from "primevue/inputtext";
 import Password from "primevue/password";
 import RadioButton from "primevue/radiobutton";
 import Checkbox from "primevue/checkbox";
 import FileUpload from "primevue/fileupload";
 import Button from "primevue/button";
+import {createAccount} from "../services/SignUpService";
 
 import FloatLabel from "primevue/floatlabel";
 
@@ -120,48 +122,81 @@ export default {
     Button,
     FloatLabel,
   },
-  setup() {
-    const email = ref("");
-    const password = ref("");
-    const userType = ref("customer");
-    const address = ref("");
-    const city = ref("");
-    const postalCode = ref("");
-    const businessAddress = ref("");
-    const expertise = ref([]);
-    const profilePic = ref(null);
-    const certificate = ref(null);
+  data(){
+    return {
+      email: "",
+      password: "",
+      userType: "",
+      address: "",
+      city: "",
+      postalCode: "",
+      businessAddress: "",
+      expertise: [],
+      profilePic: null,
+      certificate: null
+    };
+  },
+  // setup() {
+  //   const email = ref("");
+  //   const password = ref("");
+  //   const userType = ref("");
+  //   const address = ref("");
+  //   const city = ref("");
+  //   const postalCode = ref("");
+  //   const businessAddress = ref("");
+  //   const expertise = ref([]);
+  //   const profilePic = ref(null);
+  //   const certificate = ref(null);
+  //   const handleProfilePicUpload = (event) => {
+  //     profilePic.value = event.target.files[0];
+  //   };
 
-    const submitForm = () => {
+  //   const handleCertificateUpload = (event) => {
+  //     certificate.value = event.target.files[0];
+  //   };
+
+  //   return {
+  //     email,
+  //     password,
+  //     userType,
+  //     address,
+  //     city,
+  //     postalCode,
+  //     businessAddress,
+  //     expertise,
+  //     profilePic,
+  //     certificate,
+  //     handleProfilePicUpload,
+  //     handleCertificateUpload,
+  //   };
+  //},
+  methods: {
+    async submitForm ()  {
       // Handle form submission here
       // Include data like email.value, password.value, etc.
       // Also, consider handling profilePic.value and certificate.value uploads.
-    };
+        const jsonData = {
+            email: this.email,
+            password: this.password,
+            role: "customer",
+            address: this.address,
+            firstName: this.city,
+            lastName: this.postalCode
+        };
 
-    const handleProfilePicUpload = (event) => {
-      profilePic.value = event.target.files[0];
-    };
-
-    const handleCertificateUpload = (event) => {
-      certificate.value = event.target.files[0];
-    };
-
-    return {
-      email,
-      password,
-      userType,
-      address,
-      city,
-      postalCode,
-      businessAddress,
-      expertise,
-      profilePic,
-      certificate,
-      submitForm,
-      handleProfilePicUpload,
-      handleCertificateUpload,
-    };
-  },
+        console.log(JSON.stringify(jsonData));
+        
+     
+        // formData.append("businessAddress", businessAddress.value);
+        // formData.append("expertise", JSON.stringify(expertise.value));
+        // formData.append("profilePic", profilePic.value);
+        // formData.append("certificate", certificate.value);          
+        
+        const createAccountStatus = await createAccount(jsonData);
+        console.log(createAccountStatus);
+    }
+  }
+  
 };
 </script>
 
@@ -173,7 +208,7 @@ export default {
 .login-form {
   max-width: 400px;
   margin: auto;
-  padding: 20px;
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
