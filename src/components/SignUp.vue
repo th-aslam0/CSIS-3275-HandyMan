@@ -3,23 +3,42 @@
     <div class="login-form flex flex-column justify-content-center gap-3">
       <div class="flex mx-8 flex-column align-items-center gap-1">
         <h2>Sign Up</h2>
+
         <div class="flex flex-row gap-1">
           <div class="flex flex-wrap align-items-center gap-2">
             <FloatLabel>
-              <InputText id="username" v-model="value" />
-              <label for="username">Full Name</label>
+              <InputText id="fname" v-model="fname" />
+              <label for="username">First Name</label>
             </FloatLabel>
           </div>
           <div class="flex flex-wrap align-items-center gap-2">
             <FloatLabel>
-              <InputText id="username" v-model="value" />
+              <InputText id="lname" v-model="lname" />
+              <label for="username">Last Name</label>
+            </FloatLabel>
+          </div>
+        </div>
+        <br>
+        <div class="flex flex-row gap-1">
+          <div class="flex flex-wrap align-items-center gap-2">
+            <FloatLabel>
+              <InputText id="username" v-model="email" />
               <label for="username">Email</label>
             </FloatLabel>
           </div>
           <div class="flex flex-wrap align-items-center gap-2">
             <FloatLabel>
-              <Password v-model="value" inputId="password" />
+              <Password v-model="password" inputId="password" toggleMask />
               <label for="password">Password</label>
+            </FloatLabel>
+          </div>
+        </div>
+        <br>
+        <div class="flex flex-row gap-1">
+          <div class="flex flex-wrap align-items-center gap-2">
+            <FloatLabel>
+              <InputText v-model="phoneNum" inputId="phoneNum"  />
+              <label for="phoneNum">Phone Number</label>
             </FloatLabel>
           </div>
         </div>
@@ -27,57 +46,55 @@
       </div>
 
       <div
-        class="flex align-items-center justify-content-center flex-row gap-3"
-      >
+        class="flex align-items-center justify-content-center flex-row gap-3">
         <div class="flex align-items-center">
-          <RadioButton inputId="ingredient3" name="pizza" value="Pepper" />
-          <label for="Pepper" class="ml-2">Handyman</label>
+          <RadioButton inputId="handyman" value="handyman" v-model="userType" />
+          <label for="handyman">Handyman</label>
         </div>
         <div class="flex align-items-center">
-          <RadioButton inputId="ingredient4" name="pizza" value="Onion" />
-          <label for="pizza" class="ml-2">Customer</label>
+          <RadioButton inputId="customer" value="customer" v-model="userType" />
+          <label for="customer">Customer</label>
+        </div>
+      </div>
+      <br>
+      <div
+        class="flex mx-8 flex-row align-items-center justify-content-center gap-4">
+        <div class="flex flex-wrap align-items-center gap-2">
+          <FloatLabel>
+              <InputText id="address" v-model="address" />
+              <label for="address">Address</label>
+          </FloatLabel>
+        </div>
+        <div class="flex flex-wrap align-items-center gap-2">
+          <FloatLabel>
+            <InputText id="city" v-model="city" />
+            <label for="city">City</label>
+          </FloatLabel>
         </div>
       </div>
       <div
-        class="flex mx-8 flex-row align-items-center justify-content-center gap-4"
-      >
+        class="flex mx-8 flex-row align-items-center justify-content-center gap-4">
         <div class="flex flex-wrap align-items-center gap-2">
           <FloatLabel>
-            <InputText id="username" v-model="value" />
-            <label for="username">Address</label>
-          </FloatLabel>
+          <InputText id="postalCode" v-model="postalCode" />
+          <label for="postalCode">Postal Code</label>
+        </FloatLabel>
         </div>
-        <div class="flex flex-wrap align-items-center gap-2">
+        <div v-if="userType === 'handyman'" class="flex flex-wrap align-items-center gap-2">
           <FloatLabel>
-            <InputText id="username" v-model="value" />
-            <label for="password">City</label>
+            <InputText id="businessAddress" v-model="businessAddress" />
+            <label for="businessAddress">Business Address</label>
           </FloatLabel>
-        </div>
       </div>
-      <div
-        class="flex mx-8 flex-row align-items-center justify-content-center gap-4"
-      >
-        <div class="flex flex-wrap align-items-center gap-2">
-          <FloatLabel>
-            <InputText id="username" v-model="value" />
-            <label for="password">Postal Code</label>
-          </FloatLabel>
-        </div>
-        <div class="flex flex-wrap align-items-center gap-2">
-          <FloatLabel>
-            <InputText id="username" v-model="value" />
-            <label for="password">Business Address</label>
-          </FloatLabel>
-        </div>
       </div>
-      <h5 class="card flex flex-wrap justify-content-center">Expertise</h5>
-      <div class="card flex flex-wrap justify-content-center gap-3">
+      <h5 v-if="userType === 'handyman'" class="card flex flex-wrap justify-content-center">Expertise</h5>
+      <div v-if="userType === 'handyman'" class="card flex flex-wrap justify-content-center gap-3">
         <div class="flex align-items-center">
           <Checkbox
             v-model="pizza"
             inputId="ingredient1"
             name="pizza"
-            value="Cheese"
+            value="Cheese" binary
           />
           <label for="ingredient1" class="ml-2"> Cheese </label>
         </div>
@@ -106,13 +123,12 @@
             name="pizza"
             value="Onion"
           />
-          <label for="ingredient4" class="ml-2"> Onion </label>
+          <label  for="ingredient4" class="ml-2"> Onion </label>
         </div>
       </div>
-      <div class="card flex flex-row justify-content-center gap-6">
+      <div v-if="userType === 'handyman'" class="card flex flex-row justify-content-center gap-6">
       <div
-        class="card flex flex-column align-items-center justify-content-center gap-1"
-      >
+        class="card flex flex-column align-items-center justify-content-center gap-1">
         <h5>Upload Profile Pic</h5>
         <FileUpload
           mode="basic"
@@ -140,7 +156,7 @@
     <div
         class="card flex flex-column align-items-center justify-content-center gap-1 mb-1"
       >
-    <Button type="submit" @click ="redirectToLoginPage">Create Account</Button> </div>
+    <Button type="submit" @click ="submitForm" raised>Create Account</Button> </div>
   </div>
   </div>
 </template>
@@ -170,6 +186,9 @@ export default {
   },
   data(){
     return {
+      fname: "",
+      lname: "",
+      phoneNum: "",
       email: "",
       password: "",
       userType: "",
@@ -217,17 +236,18 @@ export default {
   //   };
   //},
   methods: {
-    async submitForm ()  {
+    async submitForm()  {
       // Handle form submission here
       // Include data like email.value, password.value, etc.
       // Also, consider handling profilePic.value and certificate.value uploads.
         const jsonData = {
             email: this.email,
             password: this.password,
-            role: "customer",
+            role: this.userType,
             address: this.address,
-            firstName: this.city,
-            lastName: this.postalCode
+            firstName: this.fname,
+            lastName: this.lname,
+            phoneNum: this.phoneNum
         };
 
         console.log(JSON.stringify(jsonData));
