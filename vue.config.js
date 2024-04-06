@@ -8,6 +8,18 @@ module.exports = {
   ],
 };
 const { defineConfig } = require('@vue/cli-service')
+import vue from '@vitejs/plugin-vue'
 module.exports = defineConfig({
-  transpileDependencies: true
+  transpileDependencies: true,
+  plugins: [
+		vue({
+			template: {
+				compilerOptions: {
+					isCustomElement: tagName => {
+						return tagName === 'vue-advanced-chat' || tagName === 'emoji-picker'
+					}
+				}
+			}
+		})
+	],
 })
