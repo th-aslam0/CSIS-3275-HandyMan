@@ -72,8 +72,8 @@
           </FloatLabel>
         </div>
       </div>
-      <div
-        class="flex mx-8 flex-row align-items-center justify-content-center gap-4">
+      <div 
+        class="flex mx-8 flex-row align-items-center justify-content-center gap-2">
         <div class="flex flex-wrap align-items-center gap-2">
           <FloatLabel>
           <InputText id="postalCode" v-model="postalCode" />
@@ -85,45 +85,59 @@
             <InputText id="businessAddress" v-model="businessAddress" />
             <label for="businessAddress">Business Address</label>
           </FloatLabel>
+        </div>
       </div>
+      <div v-if="userType === 'handyman'"
+        class="flex mx-8 flex-row align-items-center justify-content-center gap-4">
+        <div class="flex flex-wrap align-items-center gap-2">
+          <label for="hourlyRate">Hourly Rate</label>
+          <InputNumber mode="currency" showButtons buttonLayout="horizontal" :min="0" :step="0.25" currency="CAD" id="hourlyRate" v-model="hourlyRate" >
+          <template #incrementbuttonicon>
+              <span class="pi pi-plus" />
+          </template>
+          <template #decrementbuttonicon>
+              <span class="pi pi-minus" />
+          </template>
+          </InputNumber>
+        </div>
       </div>
       <h5 v-if="userType === 'handyman'" class="card flex flex-wrap justify-content-center">Expertise</h5>
       <div v-if="userType === 'handyman'" class="card flex flex-wrap justify-content-center gap-3">
         <div class="flex align-items-center">
           <Checkbox
-            v-model="pizza"
-            inputId="ingredient1"
-            name="pizza"
-            value="Cheese" binary
+            v-model="expertise"
+            inputId="expertise1"
+            name="expertise"
+            value="Labourer"
           />
-          <label for="ingredient1" class="ml-2"> Cheese </label>
+          <label for="ingredient1" class="ml-2"> Labourer </label>
         </div>
         <div class="flex align-items-center">
           <Checkbox
-            v-model="pizza"
-            inputId="ingredient2"
-            name="pizza"
-            value="Mushroom"
+            v-model="expertise"
+            inputId="expertise2"
+            name="expertise"
+            value="Plumber"
           />
-          <label for="ingredient2" class="ml-2"> Mushroom </label>
+          <label for="ingredient2" class="ml-2"> Plumber </label>
         </div>
         <div class="flex align-items-center">
           <Checkbox
-            v-model="pizza"
-            inputId="ingredient3"
-            name="pizza"
-            value="Pepper"
+            v-model="expertise"
+            inputId="expertise3"
+            name="expertise"
+            value="Electrician"
           />
-          <label for="ingredient3" class="ml-2"> Pepper </label>
+          <label for="ingredient3" class="ml-2"> Electrician </label>
         </div>
         <div class="flex align-items-center">
           <Checkbox
-            v-model="pizza"
-            inputId="ingredient4"
-            name="pizza"
-            value="Onion"
+            v-model="expertise"
+            inputId="expertise4"
+            name="expertise"
+            value="Traffic Control Person"
           />
-          <label  for="ingredient4" class="ml-2"> Onion </label>
+          <label  for="ingredient4" class="ml-2"> Traffic Control Person </label>
         </div>
       </div>
       <div v-if="userType === 'handyman'" class="card flex flex-row justify-content-center gap-6">
@@ -136,7 +150,7 @@
           url="/api/upload"
           accept="image/*"
           :maxFileSize="1000000"
-          @upload="onUpload"
+          @upload="handleProfilePicUpload"
         />
       </div>
       <div
@@ -149,7 +163,7 @@
           url="/api/upload"
           accept="image/*"
           :maxFileSize="1000000"
-          @upload="onUpload"
+          @upload="handleCertificateUpload"
         />
       </div>
     </div>
@@ -169,6 +183,7 @@ import RadioButton from "primevue/radiobutton";
 import Checkbox from "primevue/checkbox";
 import FileUpload from "primevue/fileupload";
 import Button from "primevue/button";
+import InputNumber from "primevue/inputnumber"
 import {createAccount} from "../services/SignUpService";
 
 import FloatLabel from 'primevue/floatlabel';
@@ -176,6 +191,7 @@ import FloatLabel from 'primevue/floatlabel';
 export default {
   name: 'SignUp',
   components: {
+    InputNumber,
     InputText,
     Password,
     RadioButton,
@@ -196,12 +212,13 @@ export default {
       city: "",
       postalCode: "",
       businessAddress: "",
+      hourlyRate: "",
       expertise: [],
       profilePic: null,
       certificate: null
     };
   },
-  // setup() {
+  //,setup() {
   //   const email = ref("");
   //   const password = ref("");
   //   const userType = ref("");
@@ -209,7 +226,7 @@ export default {
   //   const city = ref("");
   //   const postalCode = ref("");
   //   const businessAddress = ref("");
-  //   const expertise = ref([]);
+    // const expertise = ref([]);
   //   const profilePic = ref(null);
   //   const certificate = ref(null);
   //   const handleProfilePicUpload = (event) => {
@@ -220,7 +237,7 @@ export default {
   //     certificate.value = event.target.files[0];
   //   };
 
-  //   return {
+  // return {
   //     email,
   //     password,
   //     userType,
@@ -228,27 +245,56 @@ export default {
   //     city,
   //     postalCode,
   //     businessAddress,
-  //     expertise,
+  //expertise,
   //     profilePic,
   //     certificate,
   //     handleProfilePicUpload,
   //     handleCertificateUpload,
-  //   };
+  //};
   //},
   methods: {
+    handleProfilePicUpload (event){
+      this.profilePic = event.target.files[0];
+      console.log(this.profilePic)
+    },
+
+    handleCertificateUpload (event) {
+      this.certificate = event.target.files[0];
+      console.log(this.certificate)
+
+    },
     async submitForm()  {
       // Handle form submission here
       // Include data like email.value, password.value, etc.
       // Also, consider handling profilePic.value and certificate.value uploads.
-        const jsonData = {
+      let jsonData;
+      if ( this.userType === 'customer'){
+        jsonData = {
             email: this.email,
             password: this.password,
             role: this.userType,
             address: this.address,
             firstName: this.fname,
             lastName: this.lname,
-            phoneNum: this.phoneNum
+            phNumber: this.phoneNum
         };
+      }
+      else {
+        jsonData={ 
+          email: this.email,
+            password: this.password,
+            role: this.userType,
+            address: this.address,
+            firstName: this.fname,
+            lastName: this.lname,
+            phNumber: this.phoneNum,
+            expertise: JSON.stringify(this.expertise),
+            businessAddress: this.businessAddress,
+            hourlyRate: this.hourlyRate,
+            profilePicture: this.profilePicture,
+            certificate: this.certificate
+        }
+      }
 
         console.log(JSON.stringify(jsonData));
         
