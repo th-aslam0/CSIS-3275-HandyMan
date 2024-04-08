@@ -22,3 +22,7 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+## Chat used
+[vue-advanced-chat](https://www.npmjs.com/package/vue-advanced-chat)
