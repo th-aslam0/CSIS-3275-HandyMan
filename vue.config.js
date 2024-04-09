@@ -1,3 +1,4 @@
+
 const { DefinePlugin } = require('webpack');
 module.exports = {
   // other webpack configuration options...
@@ -7,8 +8,8 @@ module.exports = {
     }),
   ],
 };
-const { defineConfig } = require('@vue/cli-service')
 import vue from '@vitejs/plugin-vue'
+const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   transpileDependencies: true,
   plugins: [

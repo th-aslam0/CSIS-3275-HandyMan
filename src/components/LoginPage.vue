@@ -5,13 +5,13 @@
         <h2>Login</h2>
         <div class="flex flex-wrap align-items-center gap-2">
           <FloatLabel>
-            <InputText id="username" v-model="value" />
+            <InputText id="username" v-model="username" />
             <label for="username">Email</label>
           </FloatLabel>
         </div>
         <div class="flex flex-wrap align-items-center gap-2">
           <FloatLabel>
-            <Password v-model="value" inputId="password" />
+            <Password v-model="password" inputId="password" />
             <label for="password">Password</label>
           </FloatLabel>
         </div>
@@ -24,7 +24,7 @@
         <div class="flex align-items-center">
           <RadioButton
             inputId="ingredient3"
-            name="pizza"
+            name="pizza" v-model="role"
             value="Pepper"
           />
           <label for="Pepper" class="ml-2">Handyman</label>
@@ -32,14 +32,14 @@
         <div class="flex align-items-center">
           <RadioButton
             inputId="ingredient4"
-            name="pizza"
+            name="pizza"  v-model="role"
             value="Onion"
           />
           <label for="pizza" class="ml-2">Customer</label>
         </div>
       </div>
       <div class="flex flex-wrap  justify-content-center my-3 align-items-center gap-2">
-      <Button type="submit" @click="redirectToLoginPage">Sign In</Button>
+      <Button type="submit" @click="logIn">Sign In</Button>
       </div>
     </div>
   </div>
@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+// import { ref } from 'vue';
 import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import RadioButton from 'primevue/radiobutton';
@@ -83,48 +83,28 @@ export default {
     FloatLabel,
     // InlineMessage,
   },
-  setup() {
-    const email = ref('');
-    const password = ref('');
-    const userType = ref('customer');
-    const address = ref('');
-    const city = ref('');
-    const postalCode = ref('');
-    const businessAddress = ref('');
-    const expertise = ref([]);
-    const profilePic = ref(null);
-    const certificate = ref(null);
-
-    const submitForm = () => {
-      // Handle form submission here
-      // Include data like email.value, password.value, etc.
-      // Also, consider handling profilePic.value and certificate.value uploads.
-    };
-
-    const handleProfilePicUpload = (event) => {
-      profilePic.value = event.target.files[0];
-    };
-
-    const handleCertificateUpload = (event) => {
-      certificate.value = event.target.files[0];
-    };
-
+  data(){
     return {
-      email,
-      password,
-      userType,
-      address,
-      city,
-      postalCode,
-      businessAddress,
-      expertise,
-      profilePic,
-      certificate,
-      submitForm,
-      handleProfilePicUpload,
-      handleCertificateUpload,
-    };
+      username: "",
+      password: "",
+      role: ""
+    }
   },
+  methods: {
+
+    async logIn(){
+      const jsonData= { 
+        email: this.email,
+        password:  this.password,
+        role:  this.role
+      }
+      console.log(jsonData);
+
+      const loginRes= await logIn(jsonData);
+      console.log(loginRes);
+
+    }
+  }
 };
 </script>
 
