@@ -1,7 +1,7 @@
 import http  from "../http-common";
 
-export const logIn = (data) => {
-    return http.post("/signup",data)
+export const LOGIN = (data) => {
+    return http.post("/login",data)
             .then(response => {
         console.log(response.data);
       })

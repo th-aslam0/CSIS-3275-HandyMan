@@ -11,7 +11,7 @@
         </div>
         <div class="flex flex-wrap align-items-center gap-2">
           <FloatLabel>
-            <Password v-model="password" inputId="password" />
+            <Password v-model="password" inputId="password" toggleMask/>
             <label for="password">Password</label>
           </FloatLabel>
         </div>
@@ -19,21 +19,20 @@
       </div>
 
       <div
-        class="flex align-items-center justify-content-center flex-row gap-3"
-      >
+        class="flex align-items-center justify-content-center flex-row gap-3">
         <div class="flex align-items-center">
           <RadioButton
-            inputId="ingredient3"
-            name="pizza" v-model="role"
-            value="Pepper"
+            inputId="handyman"
+            name="handyman" v-model="role"
+            value="handyman"
           />
           <label for="Pepper" class="ml-2">Handyman</label>
         </div>
         <div class="flex align-items-center">
           <RadioButton
-            inputId="ingredient4"
-            name="pizza"  v-model="role"
-            value="Onion"
+            inputId="customer"
+            name="customer"  v-model="role"
+            value="customer"
           />
           <label for="pizza" class="ml-2">Customer</label>
         </div>
@@ -70,7 +69,7 @@ import RadioButton from 'primevue/radiobutton';
 import Button from 'primevue/button';
 
 import FloatLabel from 'primevue/floatlabel';
-
+import {LOGIN} from "../services/LoginService"
 // import InlineMessage from 'primevue/inlinemessage';
 
 export default {
@@ -100,7 +99,7 @@ export default {
       }
       console.log(jsonData);
 
-      const loginRes= await logIn(jsonData);
+      const loginRes= await LOGIN(jsonData);
       console.log(loginRes);
 
     }

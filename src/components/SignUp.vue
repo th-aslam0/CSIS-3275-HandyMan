@@ -288,7 +288,7 @@ export default {
             firstName: this.fname,
             lastName: this.lname,
             phNumber: this.phoneNum,
-            expertise: JSON.stringify(this.expertise),
+            expertise: this.expertise,
             businessAddress: this.businessAddress,
             hourlyRate: this.hourlyRate,
             profilePicture: this.profilePicture,
