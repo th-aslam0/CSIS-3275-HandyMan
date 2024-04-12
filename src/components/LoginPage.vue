@@ -12,7 +12,7 @@
         </div>
         <div class="flex flex-wrap align-items-center gap-2">
           <FloatLabel>
-            <Password v-model="password" inputId="password" toggleMask/>
+            <Password v-model="password" inputId="password" toggleMask />
             <label for="password">Password</label>
           </FloatLabel>
         </div>
@@ -20,11 +20,13 @@
       </div>
 
       <div
-        class="flex align-items-center justify-content-center flex-row gap-3">
+        class="flex align-items-center justify-content-center flex-row gap-3"
+      >
         <div class="flex align-items-center">
           <RadioButton
             inputId="handyman"
-            name="handyman" v-model="role"
+            name="handyman"
+            v-model="role"
             value="handyman"
           />
           <label for="Pepper" class="ml-2">Handyman</label>
@@ -32,14 +34,17 @@
         <div class="flex align-items-center">
           <RadioButton
             inputId="customer"
-            name="customer"  v-model="role"
+            name="customer"
+            v-model="role"
             value="customer"
           />
           <label for="pizza" class="ml-2">Customer</label>
         </div>
       </div>
-      <div class="flex flex-wrap  justify-content-center my-3 align-items-center gap-2">
-      <Button type="submit" @click="logIn">Sign In</Button>
+      <div
+        class="flex flex-wrap justify-content-center my-3 align-items-center gap-2"
+      >
+        <Button type="submit" @click="logIn">Sign In</Button>
       </div>
     </div>
   </div>
@@ -68,9 +73,10 @@ import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import RadioButton from 'primevue/radiobutton';
 import Button from 'primevue/button';
-import RootNavBar from "./RootNavBar.vue";
+import RootNavBar from './RootNavBar.vue';
 import FloatLabel from 'primevue/floatlabel';
-import {LOGIN} from "../services/LoginService"
+import { LOGIN } from '../services/LoginService';
+// import InlineMessage from 'primevue/inlinemessage';
 
 export default {
   name: 'SignUp',
@@ -80,35 +86,46 @@ export default {
     RadioButton,
     Button,
     FloatLabel,
-    RootNavBar
+    RootNavBar,
   },
-  data(){
+  data() {
     return {
-      email: "",
-      password: "",
-      role: ""
-    }
+      email: '',
+      password: '',
+      role: '',
+    };
   },
   methods: {
-
-    async logIn(){
-      const jsonData= { 
+    async logIn() {
+      const jsonData = {
         email: this.email,
-        password:  this.password,
-        role:  this.role
+        password: this.password,
+        role: this.role,
+      };
+      console.log('login request: ', jsonData);
+
+      try {
+        const response = await LOGIN(jsonData);
+
+        const user = response.data;
+        console.log(user);
+
+        localStorage.setItem('user', JSON.stringify(user));
+        if (user.role === 'handyman') {
+          this.$router.push('/NHandyHomePage');
+        } else if (user.role === 'customer') {
+          this.$router.push('/NHomePage');
+        }
+        console.log(user);
+      } catch (error) {
+        console.log(error);
       }
-      console.log(jsonData);
-
-      const loginRes= await LOGIN(jsonData);
-      console.log(loginRes);
-
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
-
 .login-form {
   border: 1px solid #ccc;
   border-radius: 5px;
