@@ -1,4 +1,5 @@
 <template>
+  <RootNavBar />
   <div class="flex justify-content-center align-items-center h-full">
     <div class="login-form flex flex-column justify-content-center gap-3">
       <div class="flex mx-8 flex-column align-items-center gap-1">
@@ -18,7 +19,7 @@
             </FloatLabel>
           </div>
         </div>
-        <br>
+        <br />
         <div class="flex flex-row gap-1">
           <div class="flex flex-wrap align-items-center gap-2">
             <FloatLabel>
@@ -33,11 +34,11 @@
             </FloatLabel>
           </div>
         </div>
-        <br>
+        <br />
         <div class="flex flex-row gap-1">
           <div class="flex flex-wrap align-items-center gap-2">
             <FloatLabel>
-              <InputText v-model="phoneNum" inputId="phoneNum"  />
+              <InputText v-model="phoneNum" inputId="phoneNum" />
               <label for="phoneNum">Phone Number</label>
             </FloatLabel>
           </div>
@@ -46,7 +47,8 @@
       </div>
 
       <div
-        class="flex align-items-center justify-content-center flex-row gap-3">
+        class="flex align-items-center justify-content-center flex-row gap-3"
+      >
         <div class="flex align-items-center">
           <RadioButton inputId="handyman" value="handyman" v-model="userType" />
           <label for="handyman">Handyman</label>
@@ -56,13 +58,14 @@
           <label for="customer">Customer</label>
         </div>
       </div>
-      <br>
+      <br />
       <div
-        class="flex mx-8 flex-row align-items-center justify-content-center gap-4">
+        class="flex mx-8 flex-row align-items-center justify-content-center gap-4"
+      >
         <div class="flex flex-wrap align-items-center gap-2">
           <FloatLabel>
-              <InputText id="address" v-model="address" />
-              <label for="address">Address</label>
+            <InputText id="address" v-model="address" />
+            <label for="address">Address</label>
           </FloatLabel>
         </div>
         <div class="flex flex-wrap align-items-center gap-2">
@@ -72,37 +75,60 @@
           </FloatLabel>
         </div>
       </div>
-      <div 
-        class="flex mx-8 flex-row align-items-center justify-content-center gap-2">
+      <div
+        class="flex mx-8 flex-row align-items-center justify-content-center gap-2"
+      >
         <div class="flex flex-wrap align-items-center gap-2">
           <FloatLabel>
-          <InputText id="postalCode" v-model="postalCode" />
-          <label for="postalCode">Postal Code</label>
-        </FloatLabel>
+            <InputText id="postalCode" v-model="postalCode" />
+            <label for="postalCode">Postal Code</label>
+          </FloatLabel>
         </div>
-        <div v-if="userType === 'handyman'" class="flex flex-wrap align-items-center gap-2">
+        <div
+          v-if="userType === 'handyman'"
+          class="flex flex-wrap align-items-center gap-2"
+        >
           <FloatLabel>
             <InputText id="businessAddress" v-model="businessAddress" />
             <label for="businessAddress">Business Address</label>
           </FloatLabel>
         </div>
       </div>
-      <div v-if="userType === 'handyman'"
-        class="flex mx-8 flex-row align-items-center justify-content-center gap-4">
+      <div
+        v-if="userType === 'handyman'"
+        class="flex mx-8 flex-row align-items-center justify-content-center gap-4"
+      >
         <div class="flex flex-wrap align-items-center gap-2">
           <label for="hourlyRate">Hourly Rate</label>
-          <InputNumber mode="currency" showButtons buttonLayout="horizontal" :min="0" :step="0.25" currency="CAD" id="hourlyRate" v-model="hourlyRate" >
-          <template #incrementbuttonicon>
+          <InputNumber
+            mode="currency"
+            showButtons
+            buttonLayout="horizontal"
+            :min="0"
+            :step="0.25"
+            currency="CAD"
+            id="hourlyRate"
+            v-model="hourlyRate"
+          >
+            <template #incrementbuttonicon>
               <span class="pi pi-plus" />
-          </template>
-          <template #decrementbuttonicon>
+            </template>
+            <template #decrementbuttonicon>
               <span class="pi pi-minus" />
-          </template>
+            </template>
           </InputNumber>
         </div>
       </div>
-      <h5 v-if="userType === 'handyman'" class="card flex flex-wrap justify-content-center">Expertise</h5>
-      <div v-if="userType === 'handyman'" class="card flex flex-wrap justify-content-center gap-3">
+      <h5
+        v-if="userType === 'handyman'"
+        class="card flex flex-wrap justify-content-center"
+      >
+        Expertise
+      </h5>
+      <div
+        v-if="userType === 'handyman'"
+        class="card flex flex-wrap justify-content-center gap-3"
+      >
         <div class="flex align-items-center">
           <Checkbox
             v-model="expertise"
@@ -137,54 +163,60 @@
             name="expertise"
             value="Traffic Control Person"
           />
-          <label  for="ingredient4" class="ml-2"> Traffic Control Person </label>
+          <label for="ingredient4" class="ml-2"> Traffic Control Person </label>
         </div>
       </div>
-      <div v-if="userType === 'handyman'" class="card flex flex-row justify-content-center gap-6">
       <div
-        class="card flex flex-column align-items-center justify-content-center gap-1">
-        <h5>Upload Profile Pic</h5>
-        <FileUpload
-          mode="basic"
-          name="demo[]"
-          url="/api/upload"
-          accept="image/*"
-          :maxFileSize="1000000"
-          @upload="handleProfilePicUpload"
-        />
-      </div>
-      <div
-        class="card flex flex-column align-items-center justify-content-center gap-1"
+        v-if="userType === 'handyman'"
+        class="card flex flex-row justify-content-center gap-6"
       >
-        <h5>Upload Certificate</h5>
-        <FileUpload
-          mode="basic"
-          name="demo[]"
-          url="/api/upload"
-          accept="image/*"
-          :maxFileSize="1000000"
-          @upload="handleCertificateUpload"
-        />
+        <div
+          class="card flex flex-column align-items-center justify-content-center gap-1"
+        >
+          <h5>Upload Profile Pic</h5>
+          <FileUpload
+            mode="basic"
+            name="demo[]"
+            url="/api/upload"
+            accept="image/*"
+            :maxFileSize="1000000"
+            @upload="handleProfilePicUpload"
+          />
+        </div>
+        <div
+          class="card flex flex-column align-items-center justify-content-center gap-1"
+        >
+          <h5>Upload Certificate</h5>
+          <FileUpload
+            mode="basic"
+            name="demo[]"
+            url="/api/upload"
+            accept="image/*"
+            :maxFileSize="1000000"
+            @upload="handleCertificateUpload"
+          />
+        </div>
       </div>
-    </div>
-    <div
+      <div
         class="card flex flex-column align-items-center justify-content-center gap-1 mb-1"
       >
-    <Button type="submit" @click ="submitForm" raised>Create Account</Button> </div>
-  </div>
+        <Button type="submit" @click="submitForm" raised>Create Account</Button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 //import { ref } from "vue";
-import InputText from "primevue/inputtext";
-import Password from "primevue/password";
-import RadioButton from "primevue/radiobutton";
-import Checkbox from "primevue/checkbox";
-import FileUpload from "primevue/fileupload";
-import Button from "primevue/button";
-import InputNumber from "primevue/inputnumber"
-import {createAccount} from "../services/SignUpService";
+import InputText from 'primevue/inputtext';
+import Password from 'primevue/password';
+import RadioButton from 'primevue/radiobutton';
+import Checkbox from 'primevue/checkbox';
+import FileUpload from 'primevue/fileupload';
+import Button from 'primevue/button';
+import InputNumber from 'primevue/inputnumber';
+import { createAccount } from '../services/SignUpService';
+import RootNavBar from './RootNavBar.vue';
 
 import FloatLabel from 'primevue/floatlabel';
 
@@ -197,25 +229,26 @@ export default {
     RadioButton,
     Checkbox,
     FileUpload,
-    Button,  
+    Button,
     FloatLabel,
+    RootNavBar,
   },
-  data(){
+  data() {
     return {
-      fname: "",
-      lname: "",
-      phoneNum: "",
-      email: "",
-      password: "",
-      userType: "",
-      address: "",
-      city: "",
-      postalCode: "",
-      businessAddress: "",
-      hourlyRate: "",
+      fname: '',
+      lname: '',
+      phoneNum: '',
+      email: '',
+      password: '',
+      userType: '',
+      address: '',
+      city: '',
+      postalCode: '',
+      businessAddress: '',
+      hourlyRate: '',
       expertise: [],
       profilePic: null,
-      certificate: null
+      certificate: null,
     };
   },
   //,setup() {
@@ -226,7 +259,7 @@ export default {
   //   const city = ref("");
   //   const postalCode = ref("");
   //   const businessAddress = ref("");
-    // const expertise = ref([]);
+  // const expertise = ref([]);
   //   const profilePic = ref(null);
   //   const certificate = ref(null);
   //   const handleProfilePicUpload = (event) => {
@@ -253,62 +286,58 @@ export default {
   //};
   //},
   methods: {
-    handleProfilePicUpload (event){
+    handleProfilePicUpload(event) {
       this.profilePic = event.target.files[0];
-      console.log(this.profilePic)
+      console.log(this.profilePic);
     },
 
-    handleCertificateUpload (event) {
+    handleCertificateUpload(event) {
       this.certificate = event.target.files[0];
-      console.log(this.certificate)
-
+      console.log(this.certificate);
     },
-    async submitForm()  {
+    async submitForm() {
       // Handle form submission here
       // Include data like email.value, password.value, etc.
       // Also, consider handling profilePic.value and certificate.value uploads.
       let jsonData;
-      if ( this.userType === 'customer'){
+      if (this.userType === 'customer') {
         jsonData = {
-            email: this.email,
-            password: this.password,
-            role: this.userType,
-            address: this.address,
-            firstName: this.fname,
-            lastName: this.lname,
-            phNumber: this.phoneNum
+          email: this.email,
+          password: this.password,
+          role: this.userType,
+          address: this.address,
+          firstName: this.fname,
+          lastName: this.lname,
+          phNumber: this.phoneNum,
+        };
+      } else {
+        jsonData = {
+          email: this.email,
+          password: this.password,
+          role: this.userType,
+          address: this.address,
+          firstName: this.fname,
+          lastName: this.lname,
+          phNumber: this.phoneNum,
+          expertise: this.expertise,
+          businessAddress: this.businessAddress,
+          hourlyRate: this.hourlyRate,
+          profilePicture: this.profilePicture,
+          certificate: this.certificate,
         };
       }
-      else {
-        jsonData={ 
-          email: this.email,
-            password: this.password,
-            role: this.userType,
-            address: this.address,
-            firstName: this.fname,
-            lastName: this.lname,
-            phNumber: this.phoneNum,
-            expertise: this.expertise,
-            businessAddress: this.businessAddress,
-            hourlyRate: this.hourlyRate,
-            profilePicture: this.profilePicture,
-            certificate: this.certificate
-        }
-      }
 
-        console.log(JSON.stringify(jsonData));
-        
-     
-        // formData.append("businessAddress", businessAddress.value);
-        // formData.append("expertise", JSON.stringify(expertise.value));
-        // formData.append("profilePic", profilePic.value);
-        // formData.append("certificate", certificate.value);          
-        
-        const createAccountStatus = await createAccount(jsonData);
-        console.log(createAccountStatus);
-    }
-  }
-  
+      console.log(JSON.stringify(jsonData));
+
+      // formData.append("businessAddress", businessAddress.value);
+      // formData.append("expertise", JSON.stringify(expertise.value));
+      // formData.append("profilePic", profilePic.value);
+      // formData.append("certificate", certificate.value);
+
+      const createAccountStatus = await createAccount(jsonData);
+      console.log(createAccountStatus);
+    },
+  },
 };
 </script>
 

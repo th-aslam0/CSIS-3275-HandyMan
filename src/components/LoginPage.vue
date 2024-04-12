@@ -1,11 +1,12 @@
 <template>
+  <RootNavBar />
   <div class="flex justify-content-center align-items-center h-screen">
     <div class="login-form flex flex-column justify-content-center gap-3">
       <div class="flex mx-8 flex-column align-items-center gap-4">
         <h2>Login</h2>
         <div class="flex flex-wrap align-items-center gap-2">
           <FloatLabel>
-            <InputText id="username" v-model="username" />
+            <InputText id="username" v-model="email" />
             <label for="username">Email</label>
           </FloatLabel>
         </div>
@@ -67,7 +68,7 @@ import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import RadioButton from 'primevue/radiobutton';
 import Button from 'primevue/button';
-
+import RootNavBar from "./RootNavBar.vue";
 import FloatLabel from 'primevue/floatlabel';
 import {LOGIN} from "../services/LoginService"
 // import InlineMessage from 'primevue/inlinemessage';
@@ -80,11 +81,11 @@ export default {
     RadioButton,
     Button,
     FloatLabel,
-    // InlineMessage,
+    RootNavBar
   },
   data(){
     return {
-      username: "",
+      email: "",
       password: "",
       role: ""
     }
