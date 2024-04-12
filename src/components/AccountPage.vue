@@ -64,6 +64,8 @@
         class="card flex flex-column align-items-center justify-content-center gap-1 mb-1"
       >
         <Button type="submit" @click="updateAcc">Update</Button>
+        <Button type="submit" @click="logout">Logout</Button>
+
       </div>
     </div>
   </div>
@@ -126,6 +128,9 @@ export default {
       this.postalCode = response.data.postalCode;
       this.phoneNum = response.data.phNumber;
     },
+    logout(){
+      this.$router.push('/');
+    }
   },
   mounted() {
     this.getAccountDetails();
