@@ -1,17 +1,18 @@
 <template>
+  <RootNavBar />
   <div class="flex justify-content-center align-items-center h-screen">
     <div class="login-form flex flex-column justify-content-center gap-3">
       <div class="flex mx-8 flex-column align-items-center gap-4">
         <h2>Login</h2>
         <div class="flex flex-wrap align-items-center gap-2">
           <FloatLabel>
-            <InputText id="username" v-model="value" />
+            <InputText id="username" v-model="email" />
             <label for="username">Email</label>
           </FloatLabel>
         </div>
         <div class="flex flex-wrap align-items-center gap-2">
           <FloatLabel>
-            <Password v-model="value" inputId="password" />
+            <Password v-model="password" inputId="password" toggleMask/>
             <label for="password">Password</label>
           </FloatLabel>
         </div>
@@ -19,27 +20,26 @@
       </div>
 
       <div
-        class="flex align-items-center justify-content-center flex-row gap-3"
-      >
+        class="flex align-items-center justify-content-center flex-row gap-3">
         <div class="flex align-items-center">
           <RadioButton
-            inputId="ingredient3"
-            name="pizza"
-            value="Pepper"
+            inputId="handyman"
+            name="handyman" v-model="role"
+            value="handyman"
           />
           <label for="Pepper" class="ml-2">Handyman</label>
         </div>
         <div class="flex align-items-center">
           <RadioButton
-            inputId="ingredient4"
-            name="pizza"
-            value="Onion"
+            inputId="customer"
+            name="customer"  v-model="role"
+            value="customer"
           />
           <label for="pizza" class="ml-2">Customer</label>
         </div>
       </div>
       <div class="flex flex-wrap  justify-content-center my-3 align-items-center gap-2">
-      <Button type="submit" @click="redirectToLoginPage">Sign In</Button>
+      <Button type="submit" @click="logIn">Sign In</Button>
       </div>
     </div>
   </div>
@@ -63,14 +63,14 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+// import { ref } from 'vue';
 import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import RadioButton from 'primevue/radiobutton';
 import Button from 'primevue/button';
-
+import RootNavBar from "./RootNavBar.vue";
 import FloatLabel from 'primevue/floatlabel';
-
+import {LOGIN} from "../services/LoginService"
 // import InlineMessage from 'primevue/inlinemessage';
 
 export default {
@@ -81,50 +81,30 @@ export default {
     RadioButton,
     Button,
     FloatLabel,
-    // InlineMessage,
+    RootNavBar
   },
-  setup() {
-    const email = ref('');
-    const password = ref('');
-    const userType = ref('customer');
-    const address = ref('');
-    const city = ref('');
-    const postalCode = ref('');
-    const businessAddress = ref('');
-    const expertise = ref([]);
-    const profilePic = ref(null);
-    const certificate = ref(null);
-
-    const submitForm = () => {
-      // Handle form submission here
-      // Include data like email.value, password.value, etc.
-      // Also, consider handling profilePic.value and certificate.value uploads.
-    };
-
-    const handleProfilePicUpload = (event) => {
-      profilePic.value = event.target.files[0];
-    };
-
-    const handleCertificateUpload = (event) => {
-      certificate.value = event.target.files[0];
-    };
-
+  data(){
     return {
-      email,
-      password,
-      userType,
-      address,
-      city,
-      postalCode,
-      businessAddress,
-      expertise,
-      profilePic,
-      certificate,
-      submitForm,
-      handleProfilePicUpload,
-      handleCertificateUpload,
-    };
+      email: "",
+      password: "",
+      role: ""
+    }
   },
+  methods: {
+
+    async logIn(){
+      const jsonData= { 
+        email: this.email,
+        password:  this.password,
+        role:  this.role
+      }
+      console.log(jsonData);
+
+      const loginRes= await LOGIN(jsonData);
+      console.log(loginRes);
+
+    }
+  }
 };
 </script>
 

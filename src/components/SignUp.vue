@@ -1,25 +1,45 @@
 <template>
+  <RootNavBar />
   <div class="flex justify-content-center align-items-center h-full">
     <div class="login-form flex flex-column justify-content-center gap-3">
       <div class="flex mx-8 flex-column align-items-center gap-1">
         <h2>Sign Up</h2>
+
         <div class="flex flex-row gap-1">
           <div class="flex flex-wrap align-items-center gap-2">
             <FloatLabel>
-              <InputText id="username" v-model="value" />
-              <label for="username">Full Name</label>
+              <InputText id="fname" v-model="fname" />
+              <label for="username">First Name</label>
             </FloatLabel>
           </div>
           <div class="flex flex-wrap align-items-center gap-2">
             <FloatLabel>
-              <InputText id="username" v-model="value" />
+              <InputText id="lname" v-model="lname" />
+              <label for="username">Last Name</label>
+            </FloatLabel>
+          </div>
+        </div>
+        <br />
+        <div class="flex flex-row gap-1">
+          <div class="flex flex-wrap align-items-center gap-2">
+            <FloatLabel>
+              <InputText id="username" v-model="email" />
               <label for="username">Email</label>
             </FloatLabel>
           </div>
           <div class="flex flex-wrap align-items-center gap-2">
             <FloatLabel>
-              <Password v-model="value" inputId="password" />
+              <Password v-model="password" inputId="password" toggleMask />
               <label for="password">Password</label>
+            </FloatLabel>
+          </div>
+        </div>
+        <br />
+        <div class="flex flex-row gap-1">
+          <div class="flex flex-wrap align-items-center gap-2">
+            <FloatLabel>
+              <InputText v-model="phoneNum" inputId="phoneNum" />
+              <label for="phoneNum">Phone Number</label>
             </FloatLabel>
           </div>
         </div>
@@ -30,184 +50,293 @@
         class="flex align-items-center justify-content-center flex-row gap-3"
       >
         <div class="flex align-items-center">
-          <RadioButton inputId="ingredient3" name="pizza" value="Pepper" />
-          <label for="Pepper" class="ml-2">Handyman</label>
+          <RadioButton inputId="handyman" value="handyman" v-model="userType" />
+          <label for="handyman">Handyman</label>
         </div>
         <div class="flex align-items-center">
-          <RadioButton inputId="ingredient4" name="pizza" value="Onion" />
-          <label for="pizza" class="ml-2">Customer</label>
+          <RadioButton inputId="customer" value="customer" v-model="userType" />
+          <label for="customer">Customer</label>
         </div>
       </div>
+      <br />
       <div
         class="flex mx-8 flex-row align-items-center justify-content-center gap-4"
       >
         <div class="flex flex-wrap align-items-center gap-2">
           <FloatLabel>
-            <InputText id="username" v-model="value" />
-            <label for="username">Address</label>
+            <InputText id="address" v-model="address" />
+            <label for="address">Address</label>
           </FloatLabel>
         </div>
         <div class="flex flex-wrap align-items-center gap-2">
           <FloatLabel>
-            <InputText id="username" v-model="value" />
-            <label for="password">City</label>
+            <InputText id="city" v-model="city" />
+            <label for="city">City</label>
           </FloatLabel>
         </div>
       </div>
       <div
+        class="flex mx-8 flex-row align-items-center justify-content-center gap-2"
+      >
+        <div class="flex flex-wrap align-items-center gap-2">
+          <FloatLabel>
+            <InputText id="postalCode" v-model="postalCode" />
+            <label for="postalCode">Postal Code</label>
+          </FloatLabel>
+        </div>
+        <div
+          v-if="userType === 'handyman'"
+          class="flex flex-wrap align-items-center gap-2"
+        >
+          <FloatLabel>
+            <InputText id="businessAddress" v-model="businessAddress" />
+            <label for="businessAddress">Business Address</label>
+          </FloatLabel>
+        </div>
+      </div>
+      <div
+        v-if="userType === 'handyman'"
         class="flex mx-8 flex-row align-items-center justify-content-center gap-4"
       >
         <div class="flex flex-wrap align-items-center gap-2">
-          <FloatLabel>
-            <InputText id="username" v-model="value" />
-            <label for="password">Postal Code</label>
-          </FloatLabel>
-        </div>
-        <div class="flex flex-wrap align-items-center gap-2">
-          <FloatLabel>
-            <InputText id="username" v-model="value" />
-            <label for="password">Business Address</label>
-          </FloatLabel>
-        </div>
-      </div>
-      <h5 class="card flex flex-wrap justify-content-center">Expertise</h5>
-      <div class="card flex flex-wrap justify-content-center gap-3">
-        <div class="flex align-items-center">
-          <Checkbox
-            v-model="pizza"
-            inputId="ingredient1"
-            name="pizza"
-            value="Cheese"
-          />
-          <label for="ingredient1" class="ml-2"> Cheese </label>
-        </div>
-        <div class="flex align-items-center">
-          <Checkbox
-            v-model="pizza"
-            inputId="ingredient2"
-            name="pizza"
-            value="Mushroom"
-          />
-          <label for="ingredient2" class="ml-2"> Mushroom </label>
-        </div>
-        <div class="flex align-items-center">
-          <Checkbox
-            v-model="pizza"
-            inputId="ingredient3"
-            name="pizza"
-            value="Pepper"
-          />
-          <label for="ingredient3" class="ml-2"> Pepper </label>
-        </div>
-        <div class="flex align-items-center">
-          <Checkbox
-            v-model="pizza"
-            inputId="ingredient4"
-            name="pizza"
-            value="Onion"
-          />
-          <label for="ingredient4" class="ml-2"> Onion </label>
+          <label for="hourlyRate">Hourly Rate</label>
+          <InputNumber
+            mode="currency"
+            showButtons
+            buttonLayout="horizontal"
+            :min="0"
+            :step="0.25"
+            currency="CAD"
+            id="hourlyRate"
+            v-model="hourlyRate"
+          >
+            <template #incrementbuttonicon>
+              <span class="pi pi-plus" />
+            </template>
+            <template #decrementbuttonicon>
+              <span class="pi pi-minus" />
+            </template>
+          </InputNumber>
         </div>
       </div>
-      <div class="card flex flex-row justify-content-center gap-6">
-      <div
-        class="card flex flex-column align-items-center justify-content-center gap-1"
+      <h5
+        v-if="userType === 'handyman'"
+        class="card flex flex-wrap justify-content-center"
       >
-        <h5>Upload Profile Pic</h5>
-        <FileUpload
-          mode="basic"
-          name="demo[]"
-          url="/api/upload"
-          accept="image/*"
-          :maxFileSize="1000000"
-          @upload="onUpload"
-        />
+        Expertise
+      </h5>
+      <div
+        v-if="userType === 'handyman'"
+        class="card flex flex-wrap justify-content-center gap-3"
+      >
+        <div class="flex align-items-center">
+          <Checkbox
+            v-model="expertise"
+            inputId="expertise1"
+            name="expertise"
+            value="Labourer"
+          />
+          <label for="ingredient1" class="ml-2"> Labourer </label>
+        </div>
+        <div class="flex align-items-center">
+          <Checkbox
+            v-model="expertise"
+            inputId="expertise2"
+            name="expertise"
+            value="Plumber"
+          />
+          <label for="ingredient2" class="ml-2"> Plumber </label>
+        </div>
+        <div class="flex align-items-center">
+          <Checkbox
+            v-model="expertise"
+            inputId="expertise3"
+            name="expertise"
+            value="Electrician"
+          />
+          <label for="ingredient3" class="ml-2"> Electrician </label>
+        </div>
+        <div class="flex align-items-center">
+          <Checkbox
+            v-model="expertise"
+            inputId="expertise4"
+            name="expertise"
+            value="Traffic Control Person"
+          />
+          <label for="ingredient4" class="ml-2"> Traffic Control Person </label>
+        </div>
       </div>
       <div
-        class="card flex flex-column align-items-center justify-content-center gap-1"
+        v-if="userType === 'handyman'"
+        class="card flex flex-row justify-content-center gap-6"
       >
-        <h5>Upload Certificate</h5>
-        <FileUpload
-          mode="basic"
-          name="demo[]"
-          url="/api/upload"
-          accept="image/*"
-          :maxFileSize="1000000"
-          @upload="onUpload"
-        />
+        <div
+          class="card flex flex-column align-items-center justify-content-center gap-1"
+        >
+          <h5>Upload Profile Pic</h5>
+          <FileUpload
+            mode="basic"
+            name="demo[]"
+            url="/api/upload"
+            accept="image/*"
+            :maxFileSize="1000000"
+            @upload="handleProfilePicUpload"
+          />
+        </div>
+        <div
+          class="card flex flex-column align-items-center justify-content-center gap-1"
+        >
+          <h5>Upload Certificate</h5>
+          <FileUpload
+            mode="basic"
+            name="demo[]"
+            url="/api/upload"
+            accept="image/*"
+            :maxFileSize="1000000"
+            @upload="handleCertificateUpload"
+          />
+        </div>
       </div>
-    </div>
-    <div
+      <div
         class="card flex flex-column align-items-center justify-content-center gap-1 mb-1"
       >
-    <Button type="submit" @click ="redirectToLoginPage">Create Account</Button> </div>
-  </div>
+        <Button type="submit" @click="submitForm" raised>Create Account</Button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
+//import { ref } from "vue";
 import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import RadioButton from 'primevue/radiobutton';
 import Checkbox from 'primevue/checkbox';
 import FileUpload from 'primevue/fileupload';
 import Button from 'primevue/button';
+import InputNumber from 'primevue/inputnumber';
+import { createAccount } from '../services/SignUpService';
+import RootNavBar from './RootNavBar.vue';
 
 import FloatLabel from 'primevue/floatlabel';
 
 export default {
   name: 'SignUp',
   components: {
+    InputNumber,
     InputText,
     Password,
     RadioButton,
     Checkbox,
     FileUpload,
-    Button,  
+    Button,
     FloatLabel,
+    RootNavBar,
   },
-  setup() {
-    const email = ref('');
-    const password = ref('');
-    const userType = ref('customer');
-    const address = ref('');
-    const city = ref('');
-    const postalCode = ref('');
-    const businessAddress = ref('');
-    const expertise = ref([]);
-    const profilePic = ref(null);
-    const certificate = ref(null);
+  data() {
+    return {
+      fname: '',
+      lname: '',
+      phoneNum: '',
+      email: '',
+      password: '',
+      userType: '',
+      address: '',
+      city: '',
+      postalCode: '',
+      businessAddress: '',
+      hourlyRate: '',
+      expertise: [],
+      profilePic: null,
+      certificate: null,
+    };
+  },
+  //,setup() {
+  //   const email = ref("");
+  //   const password = ref("");
+  //   const userType = ref("");
+  //   const address = ref("");
+  //   const city = ref("");
+  //   const postalCode = ref("");
+  //   const businessAddress = ref("");
+  // const expertise = ref([]);
+  //   const profilePic = ref(null);
+  //   const certificate = ref(null);
+  //   const handleProfilePicUpload = (event) => {
+  //     profilePic.value = event.target.files[0];
+  //   };
 
-    const submitForm = () => {
+  //   const handleCertificateUpload = (event) => {
+  //     certificate.value = event.target.files[0];
+  //   };
+
+  // return {
+  //     email,
+  //     password,
+  //     userType,
+  //     address,
+  //     city,
+  //     postalCode,
+  //     businessAddress,
+  //expertise,
+  //     profilePic,
+  //     certificate,
+  //     handleProfilePicUpload,
+  //     handleCertificateUpload,
+  //};
+  //},
+  methods: {
+    handleProfilePicUpload(event) {
+      this.profilePic = event.target.files[0];
+      console.log(this.profilePic);
+    },
+
+    handleCertificateUpload(event) {
+      this.certificate = event.target.files[0];
+      console.log(this.certificate);
+    },
+    async submitForm() {
       // Handle form submission here
       // Include data like email.value, password.value, etc.
       // Also, consider handling profilePic.value and certificate.value uploads.
-    };
+      let jsonData;
+      if (this.userType === 'customer') {
+        jsonData = {
+          email: this.email,
+          password: this.password,
+          role: this.userType,
+          address: this.address,
+          firstName: this.fname,
+          lastName: this.lname,
+          phNumber: this.phoneNum,
+        };
+      } else {
+        jsonData = {
+          email: this.email,
+          password: this.password,
+          role: this.userType,
+          address: this.address,
+          firstName: this.fname,
+          lastName: this.lname,
+          phNumber: this.phoneNum,
+          expertise: this.expertise,
+          businessAddress: this.businessAddress,
+          hourlyRate: this.hourlyRate,
+          profilePicture: this.profilePicture,
+          certificate: this.certificate,
+        };
+      }
 
-    const handleProfilePicUpload = (event) => {
-      profilePic.value = event.target.files[0];
-    };
+      console.log(JSON.stringify(jsonData));
 
-    const handleCertificateUpload = (event) => {
-      certificate.value = event.target.files[0];
-    };
+      // formData.append("businessAddress", businessAddress.value);
+      // formData.append("expertise", JSON.stringify(expertise.value));
+      // formData.append("profilePic", profilePic.value);
+      // formData.append("certificate", certificate.value);
 
-    return {
-      email,
-      password,
-      userType,
-      address,
-      city,
-      postalCode,
-      businessAddress,
-      expertise,
-      profilePic,
-      certificate,
-      submitForm,
-      handleProfilePicUpload,
-      handleCertificateUpload,
-    };
+      const createAccountStatus = await createAccount(jsonData);
+      console.log(createAccountStatus);
+    },
   },
 };
 </script>
