@@ -11,3 +11,6 @@ export const customerJobs = (custId) => {
 export const getAllJobs= () => {
   return http.get('/jobs');
 }
+export const updateJobs= (cid, jsonData) => {
+  return http.put(('/jobs/'+cid), jsonData);
+}

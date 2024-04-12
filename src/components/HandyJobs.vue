@@ -1,32 +1,14 @@
 <template>
     <div>
-      <NavBar />
+      <HandyNavBar />
     </div>
   
-    <div class="content p-d-flex p-jc-center p-mt-5">
-      <div class="search-bar p-d-flex p-jc-center p-mt-5">
-        <div class="p-inputgroup">
-          <span class="p-inputgroup-addon">
-            <i class="pi pi-search"></i>
-          </span>
-          <InputText v-model="globalFilter" placeholder="Search..." />
-        </div>
-      </div>
-    </div>
+   
     <div class="card">
       <DataTable
-        :value="filteredUsers"
-        tableStyle="min-width: 50rem"
-        :globalFilter="globalFilter"
-      >
-        <template #header>
-          <div
-            class="flex flex-wrap align-items-center justify-content-between gap-2"
-          >
-            <span class="text-xl text-900 font-bold">Search Handy</span>
-            <Button icon="pi pi-refresh" rounded raised />
-          </div>
-        </template>
+        :value="handymen"
+        tableStyle="min-width: 50rem">
+        
         <Column
           v-for="col of columns"
           :key="col.field"
@@ -43,12 +25,8 @@
                 class="p-button-success p-button-rounded p-mr-2"
                 @click="acceptHandler(rowData)"
               />
-              <Button
-                label="Reject"
-                icon="pi pi-times"
-                class="p-button-danger p-button-rounded"
-                @click="rejectHandler(rowData)"
-              />
+            
+              
             </div>
           </template>
         </Column>
@@ -73,10 +51,12 @@
   </template>
   
   <script>
-  import InputText from 'primevue/inputtext';
-  import NavBar from './NavBar.vue';
-  import FooterComp from './footerComp.vue';
-  import { getUsersByRole } from '../services/UserService';
+  
+  //import InputText from 'primevue/inputtext';
+  import HandyNavBar from "./HandyNavBar.vue"
+  import FooterComp from "./footerComp.vue"
+
+  import { getAllJobs, updateJobs } from '../services/CustomerJobsService.js';
   import DataTable from 'primevue/datatable';
   import Column from 'primevue/column';
   import Button from 'primevue/button';
@@ -84,8 +64,8 @@
   export default {
     name: 'HandyJobs',
     components: {
-      NavBar,
-      InputText,
+      HandyNavBar,
+      //InputText,
       Column,
       DataTable,
       Button,
@@ -93,49 +73,56 @@
     },
     data() {
       return {
-        globalFilter: '',
         columns: [
-          { field: 'firstName', header: 'Name' },
-          { field: 'hourlyRate', header: 'Hourly Rate' },
-          { field: 'expertise', header: 'Trade Categories' },
-          { field: 'phNumber', header: 'Phone Number' },
-          { field: 'businessAddress', header: 'Business Address' },
+          
+          { field: 'jobDescription', header: 'Job Description' },
+          { field: 'jobDateTime', header: 'Job Date' },
+          { field: 'jobDuration', header: 'Duration' },
+          { field: 'jobStatus', header: 'Status' },
+          { field: 'trade', header: 'Trade' },
         ],
         handymen: [],
         acceptedUsers: [], // New array to hold accepted users
       };
     },
     methods: {
-      async GetHandyMen() {
+      async GetProposedJobs() {
+        const trade= getLocalStorage().expertise;
+        console.log(trade);
         try {
-          const response = await getUsersByRole('handyman');
-          return response.data.map((user) => ({
-            ...user,
-            expertise: user.expertise.join(', '),
-          }));
+          const response = await getAllJobs();
+          console.log(response);
+          const filteredPrposedJobs = response.data.filter(item => item.jobStatus === 'proposed');
+          console.log("filteredresponse", filteredPrposedJobs);
+          const filteredExpertiseJobs = filteredPrposedJobs.filter(item => trade.includes(item.trade));
+          console.log("final filteredresponse", filteredExpertiseJobs);
+
+          return filteredExpertiseJobs;
         } catch (error) {
           console.log('Error:', error);
           return [];
         }
       },
-      filterBySearchQuery(user) {
-        const searchLowerCase = this.globalFilter.toLowerCase();
-        return (
-          user.hourlyRate.toString().includes(searchLowerCase) ||
-          user.firstName.toLowerCase().includes(searchLowerCase) ||
-          user.expertise.toLowerCase().includes(searchLowerCase) ||
-          user.phNumber.toLowerCase().includes(searchLowerCase) ||
-          user.businessAddress.toLowerCase().includes(searchLowerCase)
-        );
-      },
+      
       acceptHandler(rowData) {
         console.log('Accepting:', rowData);
+        const hid= getLocalStorage()._id;
+        console.log('hid:', hid);
+        const jobId= rowData.data._id
+        console.log('jobId:', jobId);
+
         // Check if rowData is valid
         if (rowData && Object.keys(rowData).length !== 0) {
           // Move a copy of the accepted user to the new table
-          this.acceptedUsers.push({ ...rowData.data });
+          const jsonData= { ...rowData.data, jobStatus: "confirmed", handymanId: hid };
+          console.log('jsonData:', jsonData);
+
+          this.acceptedUsers.push({ ...rowData.data, jobStatus: "confirmed" });
+          const response= updateJobs(jobId, jsonData);
+          console.log(response.body);
           console.log('Accepted Users:', this.acceptedUsers);
           console.log(rowData.data);
+          this.handymen= this.handymen.filter (  item=> item.jobsStatus == "proposed" );
         } else {
           console.log('Invalid row data:', rowData);
         }
@@ -148,14 +135,13 @@
       },
     },
     async created() {
-      this.handymen = await this.GetHandyMen();
+      this.handymen = await this.GetProposedJobs();
     },
-    computed: {
-      filteredUsers() {
-        return this.handymen.filter((user) => this.filterBySearchQuery(user));
-      },
-    },
+    
   };
+  const getLocalStorage = () => {
+  return JSON.parse(localStorage.getItem("user"));
+};
   </script>
   
   <style scoped></style>
