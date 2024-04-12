@@ -210,6 +210,7 @@
   <!-- <div v-if="profilePicSrc">
       <img :src="profilePicSrc" alt="Uploaded Image">
     </div> -->
+    <div><FooterComp/></div>
 </template>
 
 <script>
@@ -223,6 +224,7 @@ import Button from 'primevue/button';
 import InputNumber from 'primevue/inputnumber';
 import { createAccount } from '../services/SignUpService';
 import RootNavBar from './RootNavBar.vue';
+import FooterComp from './footerComp.vue';
 
 import FloatLabel from 'primevue/floatlabel';
 
@@ -238,6 +240,7 @@ export default {
     Button,
     FloatLabel,
     RootNavBar,
+    FooterComp
   },
   data() {
     return {
@@ -256,6 +259,7 @@ export default {
       profilePic: null,
       // profilePicSrc: null,
       certificate: null,
+      FooterComp
     };
   },
   methods: {

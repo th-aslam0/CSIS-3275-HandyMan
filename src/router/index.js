@@ -12,6 +12,7 @@ import HandyAccountPage from "../components/HandyAccountPage.vue";
 import JobProposal from "../components/JobProposal.vue";
 import JobRequest from "../components/JobRequest.vue";
 import HandyJobs from "../components/HandyJobs.vue";
+import FooterComp from "../components/footerComp.vue";
 
 const routes = [
   {
@@ -81,6 +82,11 @@ const routes = [
     path: "/HandyJobs",
     name: "HandyJobs",
     component: HandyJobs,
+  },
+  {
+    path: "/FooterComp",
+    name: "FooterComp",
+    component: FooterComp,
   },
 ];
 

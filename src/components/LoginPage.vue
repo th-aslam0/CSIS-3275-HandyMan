@@ -65,6 +65,7 @@
 
   <!-- Create Account Button -->
   <!-- <Button type="submit" @click="redirectToLoginPage">Create Accoun</Button> -->
+  <div><FooterComp/></div>
 </template>
 
 <script>
@@ -76,6 +77,8 @@ import Button from 'primevue/button';
 import RootNavBar from './RootNavBar.vue';
 import FloatLabel from 'primevue/floatlabel';
 import { LOGIN } from '../services/LoginService';
+import FooterComp from '../components/footerComp.vue';
+
 // import InlineMessage from 'primevue/inlinemessage';
 
 export default {
@@ -87,12 +90,14 @@ export default {
     Button,
     FloatLabel,
     RootNavBar,
+    FooterComp,
   },
   data() {
     return {
       email: '',
       password: '',
       role: '',
+      FooterComp
     };
   },
   methods: {
