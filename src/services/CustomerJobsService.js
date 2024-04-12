@@ -1,23 +1,9 @@
-import http from "../http-common";
+import http from '../http-common';
 
 export const jobs = (data) => {
-    return http.post("/jobs",data)
-            .then(response => {
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.error('Error submitting form:', error);
-      });
-}
-
+  return http.post('/jobs', data);
+};
 
 export const customerJobs = (custId) => {
-  return http.get("/jobs/customer/"+custId)
-          .then(response => {
-      console.log(response.data);
-    })
-    .catch(error => {
-      console.error('Error getting Customer:', error);
-    });
-}
-
+  return http.get('/jobs/customer/' + custId);
+};

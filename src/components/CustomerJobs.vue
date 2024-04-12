@@ -1,137 +1,121 @@
 <template>
-    <div>
-        <NavBar/>
-    </div>
+  <div>
+    <NavBar />
+  </div>
 
-
-    <div class="card">
-        <DataTable :value="products" tableStyle="min-width: 50rem">
-            <template #header>
-                <div class="flex flex-wrap align-items-center justify-content-between gap-2">
-                    <span class="text-xl text-900 font-bold">My Jobs</span>
-                    <Button icon="pi pi-refresh" rounded raised />
-                </div>
-            </template>
-            <Column field="name" header="Job"></Column>
-            <!-- <Column header="Image">
-                <template #body="slotProps">
-                    <img :src="`https://primefaces.org/cdn/primevue/images/product/${slotProps.data.image}`" :alt="slotProps.data.image" class="w-6rem border-round" />
-                </template>
-            </Column>
-            <Column field="price" header="Price">
-                <template #body="slotProps">
-                    {{ formatCurrency(slotProps.data.price) }}
-                </template>
-            </Column>
-            <Column field="category" header="Category"></Column>
-            <Column field="rating" header="Reviews">
-                <template #body="slotProps">
-                    <Rating :modelValue="slotProps.data.rating" readonly :cancel="false" />
-                </template>
-            </Column> -->
-            <Column header="Status">
-                <template #body="slotProps">
-                    <Tag :value="slotProps.data.inventoryStatus" :severity="getSeverity(slotProps.data)" />
-                </template>
-            </Column>
-            <template #footer> In total there are {{ 0 }} jobs. </template>
-        </DataTable>
-    </div>
-    <div
-        class="card flex flex-column align-items-center justify-content-center gap-1 mb-1"
-      >
-        <Button type="submit" @click="createJob">CreateJob</Button>
-
-        
-      </div>
-      <div v-if="showComponent">
-      <JobProposal/>
-      
-    </div>
+  <div class="card">
+    <DataTable :value="jobs" tableStyle="min-width: 50rem">
+      <template #header>
+        <div
+          class="flex flex-wrap align-items-center justify-content-between gap-2"
+        >
+          <span class="text-xl text-900 font-bold">My Jobs</span>
+          <Button icon="pi pi-refresh" rounded raised />
+        </div>
+      </template>
+      <Column
+        v-for="col of columns"
+        :key="col.field"
+        :field="col.field"
+        :header="col.header"
+      ></Column>
+    </DataTable>
+  </div>
+  <div
+    class="card flex flex-column align-items-center justify-content-center gap-1 mb-1"
+  >
+    <Button type="submit" @click="createJob">CreateJob</Button>
+  </div>
+  <div v-if="showComponent">
+    <JobProposal />
+  </div>
 </template>
 
 <script>
-
-
-import NavBar from "./NavBar.vue";
+import NavBar from './NavBar.vue';
 
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
-import Button from "primevue/button";
+import Button from 'primevue/button';
 import { Jobs, customerJobs } from '../services/CustomerJobsService.js';
 
-import JobProposal from "./JobProposal.vue";
+import JobProposal from './JobProposal.vue';
 // import ColumnGroup from 'primevue/columngroup';   // optional
 // import Row from 'primevue/row';                   // optional
 
-
 export default {
-  name: "CustomerJobs",
+  name: 'CustomerJobs',
   components: {
     NavBar,
     DataTable,
     Column,
     Button,
-    JobProposal
+    JobProposal,
     // ColumnGroup,
     // Row
   },
   data() {
     return {
-      searchQuery: "",
+      searchQuery: '',
       NavBar,
       JobProposal,
       getSeverity,
       Button,
-      showComponent:false
-     
+      showComponent: false,
+      columns: null,
+      jobs: null,
     };
   },
   methods: {
-    async GetCustomerJobs(){
-        const cid= getLocalStorage()._id;
-        console.log(cid);
-        const response = await customerJobs(cid);
-        console.log(response);
+    async GetCustomerJobs() {
+      const cid = getLocalStorage()._id;
+      const response = await customerJobs(cid);
+      console.log(cid, response.data);
+      return response.data;
+
     },
-    async CreateJobs(){
-    const jsonData={};
-    const response= await Jobs(jsonData);
-    console.log(response);
+    async CreateJobs() {
+      const jsonData = {};
+      const response = await Jobs(jsonData);
+      console.log(response);
     },
     createJob() {
       this.showComponent = !this.showComponent;
-    }
+    },
   },
-mounted() {
-        this.GetCustomerJobs();
-}
-   
+  created() {
+        this.columns =  [
+            { field: 'jobDescription', header: 'Job' },
+            { field: 'jobDateTime', header: 'Start Date' },
+            { field: 'trade', header: 'Trade Category' },
+            { field: 'jobDuration', header: 'Duration' },
+            { field: 'jobStatus', header: 'Status' },
+        ];
+    },
+  mounted() {
+     this.GetCustomerJobs().then((jobs) => { this.jobs = jobs });
+  },
 };
 
-const getLocalStorage = ()=>{
-      return JSON.parse(localStorage.getItem('user'));
-    }
+const getLocalStorage = () => {
+  return JSON.parse(localStorage.getItem('user'));
+};
 const getSeverity = (product) => {
-    switch (product.inventoryStatus) {
-        case 'INSTOCK':
-            return 'success';
+  switch (product.inventoryStatus) {
+    case 'INSTOCK':
+      return 'success';
 
-        case 'LOWSTOCK':
-            return 'warning';
+    case 'LOWSTOCK':
+      return 'warning';
 
-        case 'OUTOFSTOCK':
-            return 'danger';
+    case 'OUTOFSTOCK':
+      return 'danger';
 
-        default:
-            return null;
-    }
+    default:
+      return null;
+  }
 };
-
 </script>
 
-<style scoped>
-
-
-</style>
+<style scoped></style>
 ../services/CustomerJobsService.js
