@@ -176,11 +176,12 @@
           <h5>Upload Profile Pic</h5>
           <FileUpload
             mode="basic"
-            name="demo[]"
-            url="/api/upload"
+            name="model[]"
             accept="image/*"
-            :maxFileSize="1000000"
-            @upload="handleProfilePicUpload"
+            :max-file-size="5000000"
+            :auto="true"
+            :custom-upload="true"
+            @uploader="handleProfilePicUpload"
           />
         </div>
         <div
@@ -189,11 +190,12 @@
           <h5>Upload Certificate</h5>
           <FileUpload
             mode="basic"
-            name="demo[]"
-            url="/api/upload"
+            name="certificate[]"
             accept="image/*"
-            :maxFileSize="1000000"
-            @upload="handleCertificateUpload"
+            :max-file-size="5000000"
+            :auto="true"
+            :custom-upload="true"
+            @uploader="handleCertificateUpload"
           />
         </div>
       </div>
@@ -204,6 +206,10 @@
       </div>
     </div>
   </div>
+
+  <!-- <div v-if="profilePicSrc">
+      <img :src="profilePicSrc" alt="Uploaded Image">
+    </div> -->
 </template>
 
 <script>
@@ -248,52 +254,34 @@ export default {
       hourlyRate: '',
       expertise: [],
       profilePic: null,
+      // profilePicSrc: null,
       certificate: null,
     };
   },
-  //,setup() {
-  //   const email = ref("");
-  //   const password = ref("");
-  //   const userType = ref("");
-  //   const address = ref("");
-  //   const city = ref("");
-  //   const postalCode = ref("");
-  //   const businessAddress = ref("");
-  // const expertise = ref([]);
-  //   const profilePic = ref(null);
-  //   const certificate = ref(null);
-  //   const handleProfilePicUpload = (event) => {
-  //     profilePic.value = event.target.files[0];
-  //   };
-
-  //   const handleCertificateUpload = (event) => {
-  //     certificate.value = event.target.files[0];
-  //   };
-
-  // return {
-  //     email,
-  //     password,
-  //     userType,
-  //     address,
-  //     city,
-  //     postalCode,
-  //     businessAddress,
-  //expertise,
-  //     profilePic,
-  //     certificate,
-  //     handleProfilePicUpload,
-  //     handleCertificateUpload,
-  //};
-  //},
   methods: {
     handleProfilePicUpload(event) {
-      this.profilePic = event.target.files[0];
-      console.log(this.profilePic);
+      const file = event.files[0];
+  
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = reader.result.split(',')[1];
+        this.profilePic =  base64String;
+        // this.profilePicSrc ='data:image/jpeg;base64,' + this.profilePic;
+        // console.log(this.profilePic);
+      }
+      reader.readAsDataURL(file);
     },
 
     handleCertificateUpload(event) {
-      this.certificate = event.target.files[0];
-      console.log(this.certificate);
+      const file = event.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = reader.result.split(',')[1];
+        this.certificate =  base64String;
+        console.log(this.certificate);
+      }
+     
+      reader.readAsDataURL(file);
     },
     async submitForm() {
       // Handle form submission here
@@ -328,14 +316,22 @@ export default {
       }
 
       console.log(JSON.stringify(jsonData));
+      try {
+        const response = await createAccount(jsonData);
 
-      // formData.append("businessAddress", businessAddress.value);
-      // formData.append("expertise", JSON.stringify(expertise.value));
-      // formData.append("profilePic", profilePic.value);
-      // formData.append("certificate", certificate.value);
-
-      const createAccountStatus = await createAccount(jsonData);
-      console.log(createAccountStatus);
+         const user = response.data
+        console.log(user);
+      
+        localStorage.setItem('user', JSON.stringify(user));
+        if (user.role === 'handyman') {
+          this.$router.push('/NHandyHomePage');
+        } else if (user.role === 'customer') {
+          this.$router.push('/NHomePage');
+        }
+        console.log(user);
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };
