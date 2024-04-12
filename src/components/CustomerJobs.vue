@@ -40,9 +40,14 @@
     <div
         class="card flex flex-column align-items-center justify-content-center gap-1 mb-1"
       >
-        <Button type="submit" @click="redirectTo">CreateJob</Button>
-        <Button type="submit" @click="redirectTo">Publish</Button>
+        <Button type="submit" @click="createJob">CreateJob</Button>
+
+        
       </div>
+      <div v-if="showComponent">
+      <JobProposal/>
+      
+    </div>
 </template>
 
 <script>
@@ -53,6 +58,7 @@ import NavBar from "./NavBar.vue";
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from "primevue/button";
+import JobProposal from "./JobProposal.vue";
 // import ColumnGroup from 'primevue/columngroup';   // optional
 // import Row from 'primevue/row';                   // optional
 
@@ -63,7 +69,8 @@ export default {
     NavBar,
     DataTable,
     Column,
-    Button
+    Button,
+    JobProposal
     // ColumnGroup,
     // Row
   },
@@ -71,11 +78,18 @@ export default {
     return {
       searchQuery: "",
       NavBar,
+      JobProposal,
       getSeverity,
-      Button
+      Button,
+      showComponent:false
      
     };
   },
+  methods: {
+    createJob() {
+      this.showComponent = !this.showComponent;
+    }
+  }
 };
 const getSeverity = (product) => {
     switch (product.inventoryStatus) {

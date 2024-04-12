@@ -1,6 +1,6 @@
 <template>
-    <NavBar />
-    <div class="flex justify-content-center align-items-center h-full">
+    
+    <!-- <div class="flex justify-content-center align-items-center h-full"> -->
       <div class="login-form flex flex-column justify-content-center gap-3">
         <div class="flex mx-8 flex-column align-items-center gap-1">
           <h2>Job Proposal</h2>
@@ -58,10 +58,10 @@
         <div
           class="card flex flex-column align-items-center justify-content-center gap-1 mb-1"
         >
-          <Button type="submit" @click="redirectTo">Update</Button>
+          <Button type="submit" @click="redirectTo">Publish</Button>
         </div>
       </div>
-    </div>
+    <!-- </div> -->
   </template>
   
   <script>
@@ -69,7 +69,6 @@
   import InputText from "primevue/inputtext";
   import Button from "primevue/button";
   import FloatLabel from "primevue/floatlabel";
-  import NavBar from "./NavBar.vue";
   import FileUpload from "primevue/fileupload";
   import Calendar from "primevue/calendar";
   import Textarea from "primevue/textarea";
@@ -80,7 +79,6 @@
       Textarea,
       InputText,
       FileUpload,
-      NavBar,
       Button,
       FloatLabel,
       Calendar,
@@ -112,7 +110,6 @@
       };
   
       return {
-        NavBar,
         email,
         password,
         userType,
