@@ -10,6 +10,7 @@ export const jobs = (data) => {
       });
 }
 
+
 export const customerJobs = (custId) => {
   return http.get("/jobs/customer/"+custId)
           .then(response => {

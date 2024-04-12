@@ -80,7 +80,8 @@ export default {
   },
   methods: {
     async GetCustomerJobs(){
-        const cid= getLocalStorageCustomerId();
+        const cid= getLocalStorage()._id;
+        console.log(cid);
         const response = await customerJobs(cid);
         console.log(response);
     },
@@ -96,8 +97,8 @@ mounted() {
 }
 };
 
-const getLocalStorageCustomerId = ()=>{
-      return localStorage.getItem('user');
+const getLocalStorage = ()=>{
+      return JSON.parse(localStorage.getItem('user'));
     }
 const getSeverity = (product) => {
     switch (product.inventoryStatus) {
