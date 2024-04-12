@@ -7,3 +7,7 @@ export const jobs = (data) => {
 export const customerJobs = (custId) => {
   return http.get('/jobs/customer/' + custId);
 };
+
+export const getAllJobs= () => {
+  return http.get('/jobs');
+}

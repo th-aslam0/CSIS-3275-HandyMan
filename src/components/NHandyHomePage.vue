@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NavBar/>
+    <HandyNavBar/>
   </div>
   <Card>
     <template #title>Total Earnings</template>
@@ -12,18 +12,18 @@
 
 <script>
 import Card from 'primevue/card';
-import NavBar from "./NavBar.vue"
+import HandyNavBar from "./HandyNavBar.vue"
 
 export default {
   name: 'NHandyHomePage',
   components: {
-    NavBar,
+    HandyNavBar,
     Card
   },
   data() {
     return {
       searchQuery: '',
-      NavBar,
+      HandyNavBar,
     };
   },
   methods: {

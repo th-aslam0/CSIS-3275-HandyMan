@@ -77,7 +77,6 @@ const routes = [
     name: "JobRequest",
     component: JobRequest,
   },
-  
   {
     path: "/HandyJobs",
     name: "HandyJobs",

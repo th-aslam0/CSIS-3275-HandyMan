@@ -20,6 +20,8 @@ import { register } from 'vue-advanced-chat'
 register()
 
 export default {
+  components: {
+    NavBar,},
   data() {
     return {
       
