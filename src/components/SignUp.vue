@@ -1,5 +1,4 @@
 <template>
-  <RootNavBar />
   <div class="flex justify-content-center align-items-center h-full">
     <div class="login-form flex flex-column justify-content-center gap-3">
       <div class="flex mx-8 flex-column align-items-center gap-1">
@@ -204,6 +203,10 @@
       >
         <Button type="submit" @click="submitForm" raised>Create Account</Button>
       </div>
+      <div class="container">
+        <p>Already have an account? <router-link to="/" class="signup-link">Sign In</router-link></p>
+      </div>
+
     </div>
   </div>
 
@@ -223,7 +226,6 @@ import FileUpload from 'primevue/fileupload';
 import Button from 'primevue/button';
 import InputNumber from 'primevue/inputnumber';
 import { createAccount } from '../services/SignUpService';
-import RootNavBar from './RootNavBar.vue';
 import FooterComp from './footerComp.vue';
 
 import FloatLabel from 'primevue/floatlabel';
@@ -239,7 +241,6 @@ export default {
     FileUpload,
     Button,
     FloatLabel,
-    RootNavBar,
     FooterComp
   },
   data() {
@@ -360,5 +361,14 @@ export default {
 
 .p-button {
   margin-top: 20px;
+}
+.container {
+  text-align: center;
+}
+
+.signup-link {
+  color: green; /* Change color as desired */
+  text-decoration: underline;
+  cursor: pointer;
 }
 </style>

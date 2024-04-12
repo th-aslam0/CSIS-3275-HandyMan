@@ -11,15 +11,19 @@
         </div>
       </div>
     </div>
+    <div>
+      <FooterComp/>
+    </div>
   </template>
   
   <script>
   import  Menubar  from 'primevue/menubar';
-  
+  import FooterComp from './footerComp.vue'
   export default {
     name: 'HandyHomePage',
     components: {
       Menubar,
+      FooterComp
     },
     data() {
       return {

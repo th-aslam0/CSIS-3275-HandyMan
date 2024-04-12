@@ -1,5 +1,5 @@
 <template>
-  <RootNavBar />
+  
   <div class="flex justify-content-center align-items-center h-screen">
     <div class="login-form flex flex-column justify-content-center gap-3">
       <div class="flex mx-8 flex-column align-items-center gap-4">
@@ -45,6 +45,10 @@
         class="flex flex-wrap justify-content-center my-3 align-items-center gap-2"
       >
         <Button type="submit" @click="logIn">Sign In</Button>
+        
+      </div>
+      <div class="container">
+        <p>Don't have an account? <router-link to="/SignUp" class="signup-link">Sign Up</router-link></p>
       </div>
     </div>
   </div>
@@ -74,7 +78,6 @@ import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import RadioButton from 'primevue/radiobutton';
 import Button from 'primevue/button';
-import RootNavBar from './RootNavBar.vue';
 import FloatLabel from 'primevue/floatlabel';
 import { LOGIN } from '../services/LoginService';
 import FooterComp from '../components/footerComp.vue';
@@ -89,7 +92,6 @@ export default {
     RadioButton,
     Button,
     FloatLabel,
-    RootNavBar,
     FooterComp,
   },
   data() {
@@ -147,5 +149,14 @@ export default {
 
 .p-button {
   margin-top: 20px;
+}
+.container {
+  text-align: center;
+}
+
+.signup-link {
+  color: green; /* Change color as desired */
+  text-decoration: underline;
+  cursor: pointer;
 }
 </style>

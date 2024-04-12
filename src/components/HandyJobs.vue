@@ -1,6 +1,6 @@
 <template>
     <div>
-      <HandyNavBar />
+      <NavBar />
     </div>
   
     <div class="content p-d-flex p-jc-center p-mt-5">
@@ -68,13 +68,15 @@
         ></Column>
       </DataTable>
     </div>
+    <div><FooterComp/></div>
+
   </template>
   
   <script>
-  
   import InputText from 'primevue/inputtext';
-  import HandyNavBar from "./HandyNavBar.vue"
-  import { getAllJobs } from '../services/CustomerJobsService.js';
+  import NavBar from './NavBar.vue';
+  import FooterComp from './footerComp.vue';
+  import { getUsersByRole } from '../services/UserService';
   import DataTable from 'primevue/datatable';
   import Column from 'primevue/column';
   import Button from 'primevue/button';
@@ -82,11 +84,12 @@
   export default {
     name: 'HandyJobs',
     components: {
-      HandyNavBar,
+      NavBar,
       InputText,
       Column,
       DataTable,
       Button,
+      FooterComp
     },
     data() {
       return {
@@ -103,9 +106,9 @@
       };
     },
     methods: {
-      async GetProposedJobs() {
+      async GetHandyMen() {
         try {
-          const response = await getAllJobs();
+          const response = await getUsersByRole('handyman');
           return response.data.map((user) => ({
             ...user,
             expertise: user.expertise.join(', '),
@@ -145,7 +148,7 @@
       },
     },
     async created() {
-      this.handymen = await this.GetProposedJobs();
+      this.handymen = await this.GetHandyMen();
     },
     computed: {
       filteredUsers() {

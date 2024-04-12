@@ -8,17 +8,20 @@
       <p class="m-0">{{"$"+generateRandomNumber() }}</p>
     </template>
   </Card>
+  <div><FooterComp/></div>
 </template>
 
 <script>
 import Card from 'primevue/card';
 import HandyNavBar from "./HandyNavBar.vue"
+import FooterComp from "./footerComp.vue"
 
 export default {
   name: 'NHandyHomePage',
   components: {
     HandyNavBar,
-    Card
+    Card,
+    FooterComp
   },
   data() {
     return {

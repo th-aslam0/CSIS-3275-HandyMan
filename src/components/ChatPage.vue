@@ -12,19 +12,22 @@
       @fetch-messages="fetchMessages($event.detail[0])"
     />
   </div>
+  <div><FooterComp/></div>
 </template>
 
 <script>
 import NavBar from "./NavBar.vue"
+import FooterComp from "./footerComp.vue"
 import { register } from 'vue-advanced-chat'
 register()
 
 export default {
   components: {
-    NavBar,},
+    NavBar,
+    FooterComp},
   data() {
     return {
-      
+
       currentUserId: '1234',
       rooms: [
         {

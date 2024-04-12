@@ -29,6 +29,9 @@
   <div v-if="showComponent">
     <JobProposal />
   </div>
+  <div>
+    <FooterComp/>
+  </div>
 </template>
 
 <script>
@@ -40,6 +43,7 @@ import Button from "primevue/button";
 import { Jobs, customerJobs } from "../services/CustomerJobsService.js";
 
 import JobProposal from './JobProposal.vue';
+import FooterComp from './footerComp.vue';
 // import ColumnGroup from 'primevue/columngroup';   // optional
 // import Row from 'primevue/row';                   // optional
 
@@ -51,6 +55,7 @@ export default {
     Column,
     Button,
     JobProposal,
+    FooterComp
     // ColumnGroup,
     // Row
   },

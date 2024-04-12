@@ -86,6 +86,9 @@
       </div>
     </div>
   </div>
+  <div>
+    <FooterComp/>
+  </div>
 </template>
 
 <script>
@@ -94,6 +97,7 @@ import Password from 'primevue/password';
 //import Checkbox from 'primevue/checkbox';
 import Button from 'primevue/button';
 import HandyNavBar from "./HandyNavBar.vue"
+import FooterComp from "./footerComp.vue"
 import FloatLabel from 'primevue/floatlabel';
 import { updateAccount, getAccount } from "../services/SignUpService.js";
 
@@ -105,7 +109,8 @@ export default {
     //Checkbox,
     Button,
     FloatLabel,
-    HandyNavBar
+    HandyNavBar,
+    FooterComp
   },
   data() {
     return {

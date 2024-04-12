@@ -69,6 +69,7 @@
       </div>
     </div>
   </div>
+  <div><FooterComp/></div>
 </template>
 
 <script>
@@ -77,6 +78,7 @@ import Password from "primevue/password";
 import Button from "primevue/button";
 import FloatLabel from "primevue/floatlabel";
 import NavBar from "./NavBar.vue";
+import FooterComp from "./footerComp.vue";
 import { updateAccount, getAccount } from "../services/SignUpService.js";
 
 export default {
@@ -87,6 +89,7 @@ export default {
     NavBar,
     Button,
     FloatLabel,
+    FooterComp
   },
   data() {
     return {
@@ -97,6 +100,7 @@ export default {
       address: "",
       city: "",
       postalCode: "",
+      
     };
   },
   methods: {

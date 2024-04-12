@@ -35,11 +35,13 @@
       ></Column>
     </DataTable>
   </div>
+  <div><FooterComp/></div>
 </template>
 
 <script>
 import InputText from 'primevue/inputtext';
 import NavBar from './NavBar.vue';
+import FooterComp from './footerComp.vue';
 import { getUsersByRole } from '../services/UserService';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -51,6 +53,7 @@ export default {
     InputText,
     Column,
     DataTable,
+    FooterComp
   },
   data() {
     return {
