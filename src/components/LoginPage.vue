@@ -71,7 +71,6 @@ import Button from 'primevue/button';
 import RootNavBar from "./RootNavBar.vue";
 import FloatLabel from 'primevue/floatlabel';
 import {LOGIN} from "../services/LoginService"
-// import InlineMessage from 'primevue/inlinemessage';
 
 export default {
   name: 'SignUp',

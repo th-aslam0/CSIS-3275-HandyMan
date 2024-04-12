@@ -322,7 +322,7 @@ export default {
           expertise: this.expertise,
           businessAddress: this.businessAddress,
           hourlyRate: this.hourlyRate,
-          profilePicture: this.profilePicture,
+          profilePicture: this.profilePic,
           certificate: this.certificate,
         };
       }

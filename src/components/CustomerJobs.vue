@@ -40,7 +40,7 @@
     <div
         class="card flex flex-column align-items-center justify-content-center gap-1 mb-1"
       >
-        <Button type="submit" @click="redirectTo">CreateJob</Button>
+        <Button type="submit" @click="CreateJobs">CreateJob</Button>
         <Button type="submit" @click="redirectTo">Publish</Button>
       </div>
 </template>
@@ -53,6 +53,8 @@ import NavBar from "./NavBar.vue";
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from "primevue/button";
+import { Jobs, customerJobs } from '../services/CustomerJobsService.js';
+
 // import ColumnGroup from 'primevue/columngroup';   // optional
 // import Row from 'primevue/row';                   // optional
 
@@ -76,7 +78,27 @@ export default {
      
     };
   },
+  methods: {
+    async GetCustomerJobs(){
+        const cid= getLocalStorageCustomerId();
+        const response = await customerJobs(cid);
+        console.log(response);
+    },
+    async CreateJobs(){
+    const jsonData={};
+    const response= await Jobs(jsonData);
+    console.log(response);
+    },
+    
+},
+mounted() {
+        this.GetCustomerJobs();
+}
 };
+
+const getLocalStorageCustomerId = ()=>{
+      return localStorage.getItem('user');
+    }
 const getSeverity = (product) => {
     switch (product.inventoryStatus) {
         case 'INSTOCK':
@@ -99,3 +121,4 @@ const getSeverity = (product) => {
 
 
 </style>
+../services/CustomerJobsService.js
