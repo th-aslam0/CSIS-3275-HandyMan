@@ -32,12 +32,12 @@
 </template>
 
 <script>
-import NavBar from './NavBar.vue';
+import NavBar from "./NavBar.vue";
 
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
-import Button from 'primevue/button';
-import { Jobs, customerJobs } from '../services/CustomerJobsService.js';
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
+import Button from "primevue/button";
+import { Jobs, customerJobs } from "../services/CustomerJobsService.js";
 
 import JobProposal from './JobProposal.vue';
 // import ColumnGroup from 'primevue/columngroup';   // optional
@@ -102,13 +102,13 @@ const getLocalStorage = () => {
 };
 const getSeverity = (product) => {
   switch (product.inventoryStatus) {
-    case 'INSTOCK':
+    case 'active':
       return 'success';
 
-    case 'LOWSTOCK':
+    case 'completed':
       return 'warning';
 
-    case 'OUTOFSTOCK':
+    case 'proposed':
       return 'danger';
 
     default:
@@ -118,4 +118,3 @@ const getSeverity = (product) => {
 </script>
 
 <style scoped></style>
-../services/CustomerJobsService.js

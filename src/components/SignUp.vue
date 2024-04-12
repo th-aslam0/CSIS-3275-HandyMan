@@ -295,6 +295,7 @@ export default {
           role: this.userType,
           address: this.address,
           firstName: this.fname,
+          postalCode: this.postalCode,
           lastName: this.lname,
           phNumber: this.phoneNum,
         };
@@ -305,6 +306,7 @@ export default {
           role: this.userType,
           address: this.address,
           firstName: this.fname,
+          postalCode: this.postalCode,
           lastName: this.lname,
           phNumber: this.phoneNum,
           expertise: this.expertise,
@@ -319,7 +321,7 @@ export default {
       try {
         const response = await createAccount(jsonData);
 
-         const user = response.data
+        const user = response.data
         console.log(user);
       
         localStorage.setItem('user', JSON.stringify(user));

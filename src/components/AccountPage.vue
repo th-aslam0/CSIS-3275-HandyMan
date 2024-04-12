@@ -7,19 +7,20 @@
         <div class="flex flex-row gap-1">
           <div class="flex flex-wrap align-items-center gap-2">
             <FloatLabel>
-              <InputText id="fullname" v-model="value" />
-              <label for="fullname">Full Name</label>
+              <InputText id="fname" v-model="fname" />
+              <label for="username">First Name</label>
             </FloatLabel>
           </div>
           <div class="flex flex-wrap align-items-center gap-2">
             <FloatLabel>
-              <InputText id="email" v-model="value" />
-              <label for="email">Email</label>
+              <InputText id="lname" v-model="lname" />
+              <label for="username">Last Name</label>
             </FloatLabel>
           </div>
+
           <div class="flex flex-wrap align-items-center gap-2">
             <FloatLabel>
-              <Password v-model="value" inputId="password" />
+              <Password toggleMask v-model="password" inputId="password" />
               <label for="password">Password</label>
             </FloatLabel>
           </div>
@@ -31,13 +32,13 @@
       >
         <div class="flex flex-wrap align-items-center gap-2">
           <FloatLabel>
-            <InputText id="Address" v-model="value" />
+            <InputText id="Address" v-model="address" />
             <label for="Address">Address</label>
           </FloatLabel>
         </div>
         <div class="flex flex-wrap align-items-center gap-2">
           <FloatLabel>
-            <InputText id="City" v-model="value" />
+            <InputText id="City" v-model="city" />
             <label for="City">City</label>
           </FloatLabel>
         </div>
@@ -47,13 +48,13 @@
       >
         <div class="flex flex-wrap align-items-center gap-2">
           <FloatLabel>
-            <InputText id="PostalCode" v-model="value" />
+            <InputText id="PostalCode" v-model="postalCode" />
             <label for="PostalCode">Postal Code</label>
           </FloatLabel>
         </div>
         <div class="flex flex-wrap align-items-center gap-2">
           <FloatLabel>
-            <InputText id="PhoneNumber" v-model="value" />
+            <InputText id="PhoneNumber" v-model="phoneNum" />
             <label for="PhoneNumber">Phone Number</label>
           </FloatLabel>
         </div>
@@ -62,19 +63,19 @@
       <div
         class="card flex flex-column align-items-center justify-content-center gap-1 mb-1"
       >
-        <Button type="submit" @click="redirectTo">Update</Button>
+        <Button type="submit" @click="updateAcc">Update</Button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
 import InputText from "primevue/inputtext";
 import Password from "primevue/password";
 import Button from "primevue/button";
 import FloatLabel from "primevue/floatlabel";
 import NavBar from "./NavBar.vue";
+import { updateAccount, getAccount } from "../services/SignUpService.js";
 
 export default {
   name: "AccountPage",
@@ -85,49 +86,53 @@ export default {
     Button,
     FloatLabel,
   },
-  setup() {
-    const email = ref("");
-    const password = ref("");
-    const userType = ref("customer");
-    const address = ref("");
-    const city = ref("");
-    const postalCode = ref("");
-    const businessAddress = ref("");
-    const expertise = ref([]);
-    const profilePic = ref(null);
-    const certificate = ref(null);
-
-    const submitForm = () => {
-      // Handle form submission here
-      // Include data like email.value, password.value, etc.
-      // Also, consider handling profilePic.value and certificate.value uploads.
-    };
-
-    const handleProfilePicUpload = (event) => {
-      profilePic.value = event.target.files[0];
-    };
-
-    const handleCertificateUpload = (event) => {
-      certificate.value = event.target.files[0];
-    };
-
+  data() {
     return {
-      NavBar,
-      email,
-      password,
-      userType,
-      address,
-      city,
-      postalCode,
-      businessAddress,
-      expertise,
-      profilePic,
-      certificate,
-      submitForm,
-      handleProfilePicUpload,
-      handleCertificateUpload,
+      fname: "",
+      lname: "",
+      phoneNum: "",
+      password: "",
+      address: "",
+      city: "",
+      postalCode: "",
     };
   },
+  methods: {
+    async updateAcc() {
+      const cid = getLocalStorage()._id;
+      console.log("cid;", cid);
+
+      const jsonData = {
+        password: this.password,
+        firstName: this.fname,
+        lastName: this.lname,
+        address: this.address,
+        city: this.city,
+        postalCode: this.postalCode,
+        phNumber: this.phoneNum,
+      };
+      const response = await updateAccount(cid, jsonData);
+      console.log(response);
+    },
+    async getAccountDetails() {
+      const cid = getLocalStorage()._id;
+      console.log("cid;", cid);
+      const response = await getAccount(cid);
+      console.log(response);
+      this.fname = response.data.firstName;
+      this.lname = response.data.lastName;
+      this.address = response.data.address;
+      this.city = response.data.city;
+      this.postalCode = response.data.postalCode;
+      this.phoneNum = response.data.phNumber;
+    },
+  },
+  mounted() {
+    this.getAccountDetails();
+  },
+};
+const getLocalStorage = () => {
+  return JSON.parse(localStorage.getItem("user"));
 };
 </script>
 
